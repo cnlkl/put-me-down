@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.fzuclover.putmedown">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/NoToolBar">
+        <activity android:name=".businessmodule.login.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".businessmodule.achievement.AchievementActivity" />
+        <activity android:name=".businessmodule.forgotpassword.ForgotPasswordActivity" />
+        <activity android:name=".businessmodule.register.RegisterActivity" />
+        <activity android:name=".businessmodule.setting.SettingActivity" />
+        <activity android:name=".businessmodule.starttiming.StartTimingActivity" />
+        <activity android:name=".businessmodule.timing.TimingActivity" />
+        <activity android:name=".businessmodule.timingrecord.TimingRecordActivity" />
+        <activity android:name=".businessmodule.totaltimingtoday.TotalTimingTodayActivity"></activity>
+    </application>
+
+</manifest>
