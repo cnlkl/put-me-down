@@ -7,11 +7,16 @@ package com.fzuclover.putmedown.businessmodule.totaltimingtoday;
 public class TotalTimingTodayContract {
 
     interface View {
-
+        void toSettingActivity();
+        void toLoginActivity();
+        void toStartTimingActivity();
+        void toAchievementActivity();
+        void toHistoryActivity();
+        void showSetTargetTimeDialog();
     }
 
     interface Presenter {
-
+        void logout();
     }
 
 }

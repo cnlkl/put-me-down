@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">PutMeDown</string>
+    <string name="start">start</string>
+    <string name="logout">退出</string>
+    <string name="set">设置</string>
+    <string name="my_achievement">我的成就</string>
+    <string name="history">历史记录</string>
 </resources>
