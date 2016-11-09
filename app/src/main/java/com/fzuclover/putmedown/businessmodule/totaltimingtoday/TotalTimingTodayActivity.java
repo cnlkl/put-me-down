@@ -14,7 +14,7 @@ import com.fzuclover.putmedown.R;
 import com.fzuclover.putmedown.businessmodule.achievement.AchievementActivity;
 import com.fzuclover.putmedown.businessmodule.login.LoginActivity;
 import com.fzuclover.putmedown.businessmodule.setting.SettingActivity;
-import com.fzuclover.putmedown.businessmodule.starttiming.StartTimingActivity;
+import com.fzuclover.putmedown.businessmodule.timing.TimingActivity;
 import com.fzuclover.putmedown.businessmodule.timingrecord.TimingRecordActivity;
 import com.fzuclover.putmedown.model.RecordModel;
 import com.fzuclover.putmedown.model.UserModel;
@@ -87,13 +87,12 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.start_timing_btn:
-                toStartTimingActivity();
+                toTimingActivity();
                 break;
             case R.id.set_btn:
                 toSettingActivity();
                 break;
             case R.id.logout_btn:
-                mPresenter.logout();
                 toLoginActivity();
                 this.finish();
                 break;
@@ -124,8 +123,8 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
     }
 
     @Override
-    public void toStartTimingActivity() {
-        Intent intent = new Intent(TotalTimingTodayActivity.this, StartTimingActivity.class);
+    public void toTimingActivity() {
+        Intent intent = new Intent(TotalTimingTodayActivity.this, TimingActivity.class);
         startActivity(intent);
     }
 
@@ -145,5 +144,15 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
     public void showSetTargetTimeDialog() {
         mTimedToday += 30;
         mWaveProgressView.setCurrent(mTimedToday, mTimedToday + "min/" + mTargetTime + "min");
+    }
+
+    @Override
+    public void getTargetTime() {
+
+    }
+
+    @Override
+    public void setTargetTime() {
+
     }
 }

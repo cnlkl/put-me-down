@@ -9,14 +9,15 @@ public class TotalTimingTodayContract {
     interface View {
         void toSettingActivity();
         void toLoginActivity();
-        void toStartTimingActivity();
+        void toTimingActivity();
         void toAchievementActivity();
         void toHistoryActivity();
         void showSetTargetTimeDialog();
+        void getTargetTime();
+        void setTargetTime();
     }
 
     interface Presenter {
-        void logout();
     }
 
 }

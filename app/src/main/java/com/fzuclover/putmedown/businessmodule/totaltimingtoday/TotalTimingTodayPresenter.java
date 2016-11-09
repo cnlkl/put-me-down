@@ -15,15 +15,9 @@ public class TotalTimingTodayPresenter implements TotalTimingTodayContract.Prese
 
     public TotalTimingTodayPresenter(TotalTimingTodayContract.View view, IRecordModel recordModel,
                                      IUserModel userModel){
-
         mView = view;
         mRecordModel = recordModel;
         mUserModel = userModel;
-
     }
 
-    @Override
-    public void logout() {
-
-    }
 }

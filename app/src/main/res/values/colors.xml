@@ -6,4 +6,5 @@
     <color name="drawer_background">#e7e7e7</color>
     <color name="gray">#a6a6a6</color>
     <color name="white">#f0f0f0</color>
+    <color name="base_color">#5b9ef4</color>
 </resources>

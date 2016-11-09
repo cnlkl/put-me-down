@@ -7,7 +7,6 @@ package com.fzuclover.putmedown.businessmodule.timing;
 public interface TimingContract {
 
     interface View {
-
     }
 
     interface Presenter {
