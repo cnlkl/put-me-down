@@ -1,12 +1,17 @@
 package com.fzuclover.putmedown.businessmodule.totaltimingtoday;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.fzuclover.putmedown.BaseActivity;
@@ -18,7 +23,11 @@ import com.fzuclover.putmedown.businessmodule.timing.TimingActivity;
 import com.fzuclover.putmedown.businessmodule.timingrecord.TimingRecordActivity;
 import com.fzuclover.putmedown.model.RecordModel;
 import com.fzuclover.putmedown.model.UserModel;
+import com.fzuclover.putmedown.util.LogUtil;
 import com.fzuclover.putmedown.view.WaveProgressView;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class TotalTimingTodayActivity extends BaseActivity implements TotalTimingTodayContract.View ,
@@ -67,9 +76,9 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
 
         mWaveProgressView = (WaveProgressView) findViewById(R.id.wave_progress_view);
         mWaveProgressView.setOnClickListener(this);
-        //TODO 本日已经计时时间从数据库获取
+        //TODO 本日已经计时时间从sharepreferences获取
         mTimedToday = 0;
-        //默认目标时间为3小时
+        //todo 每日目标时间sharepreferences获取
         mTargetTime = 3 * 60;
         //设置进度球最大进度为目标时间
         mWaveProgressView.setMaxProgress(mTargetTime);
@@ -87,7 +96,7 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.start_timing_btn:
-                toTimingActivity();
+                showEditTimingCommentsDialog();
                 break;
             case R.id.set_btn:
                 toSettingActivity();
@@ -123,8 +132,9 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
     }
 
     @Override
-    public void toTimingActivity() {
+    public void toTimingActivity(int mimute) {
         Intent intent = new Intent(TotalTimingTodayActivity.this, TimingActivity.class);
+        intent.putExtra("minute", mimute);
         startActivity(intent);
     }
 
@@ -142,17 +152,84 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
 
     @Override
     public void showSetTargetTimeDialog() {
-        mTimedToday += 30;
-        mWaveProgressView.setCurrent(mTimedToday, mTimedToday + "min/" + mTargetTime + "min");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("设置每日目标时间");
+        builder.setCancelable(true);
+        View view = getLayoutInflater().inflate(R.layout.dialog_set_target_time, null);
+        builder.setView(view);
+        final EditText targetTimeEdt = (EditText) view.findViewById(R.id.set_target_time_edt);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Pattern pattern = Pattern.compile("[0-9]*");
+                String targetTimeStr = targetTimeEdt.getText().toString();
+                if(!TextUtils.isEmpty(targetTimeStr)){
+                    Matcher isNum = pattern.matcher(targetTimeStr);
+                    if(isNum.matches()){
+                        int temp;
+                        temp = Integer.valueOf(targetTimeStr);
+                        if(temp <= 1440){
+                            mTargetTime = temp;
+                            //todo 将mTargetTime持久化
+                            mWaveProgressView.setMaxProgress(mTargetTime);
+                            mWaveProgressView.setCurrent(mTimedToday, mTimedToday + "min/" + mTargetTime + "min");
+                        }else{
+                            toastShort("目标时间超过24小时啦>.<");
+                        }
+                    }else{
+                        toastShort("请输入数字");
+                    }
+                }
+
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.show();
+        targetTimeEdt.setText(String.valueOf(mTargetTime));
     }
 
     @Override
-    public void getTargetTime() {
+    public void showEditTimingCommentsDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("本次计时备注");
+        builder.setCancelable(true);
+        View view = getLayoutInflater().inflate(R.layout.dialog_set_timing_comments, null);
+
+        final NumberPicker minutePicker = (NumberPicker) view.findViewById(R.id.minute_picker);
+        final String[] minuteStrs = {"15", "30", "45", "60"};
+        minutePicker.setDisplayedValues(minuteStrs);
+        minutePicker.setMinValue(0);
+        minutePicker.setMaxValue(3);
+
+        builder.setView(view);
+        EditText commentEdt = (EditText) findViewById(R.id.comment_edt);
+        builder.setPositiveButton("开始", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //todo 保存备注到数据库
+                int index = minutePicker.getValue();
+                int minute = Integer.valueOf(minuteStrs[index]);
+                toTimingActivity(minute);
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.show();
+    }
+
+    private void initNumPikcer(View v){
 
     }
 
-    @Override
-    public void setTargetTime() {
 
-    }
 }

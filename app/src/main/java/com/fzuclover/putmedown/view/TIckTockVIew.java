@@ -27,7 +27,7 @@ import java.util.Calendar;
  * Created by lkl on 2016/11/9.
  */
 
-public class TickTockVIew extends View{
+public class TickTockView extends View{
     private Paint mFillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint mEmptyPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint mMiddlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -59,6 +59,7 @@ public class TickTockVIew extends View{
     private boolean mAutoFitText = true;
 
     private OnTickListener mTickListener;
+    private OnFinishListener mOnFinishListener;
 
     private final int DURATION_MINUTE = 0;
     private final int DURATION_TOTAL = 1;
@@ -66,23 +67,23 @@ public class TickTockVIew extends View{
     private Calendar mStartTime = null;
     private Calendar mEndTime = null;
 
-    public TickTockVIew(Context context) {
+    public TickTockView(Context context) {
         super(context);
         init(context, null);
     }
 
-    public TickTockVIew(Context context, AttributeSet attrs) {
+    public TickTockView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public TickTockVIew(Context context, AttributeSet attrs, int defStyleAttr) {
+    public TickTockView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public TickTockVIew(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public TickTockView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs);
     }
@@ -269,6 +270,7 @@ public class TickTockVIew extends View{
             public void onFinish() {
                 updateText(0);
                 invalidate();
+                mOnFinishListener.onStop();
             }
         }.start();
     }
@@ -287,11 +289,21 @@ public class TickTockVIew extends View{
         start(endTime);
     }
 
+
+    private boolean mFlag = true;
     private void updateText(long timeRemaining) {
         if (mTickListener != null) {
             String text = mTickListener.getText(timeRemaining);
             if (!TextUtils.isEmpty(text)) {
                 mText = text;
+                //getText第一次返回则fitText()
+                if(mFlag){
+                    mFlag = false;
+                    fitText(mText);
+                }
+                if(timeRemaining == 0){
+                    fitText(mText);
+                }
             }
         }
     }
@@ -306,7 +318,6 @@ public class TickTockVIew extends View{
         mStartTime = null;
         mEndTime = null;
     }
-
     private void fitText(CharSequence text) {
         if (TextUtils.isEmpty(text)) {
             return;
@@ -337,9 +348,17 @@ public class TickTockVIew extends View{
         mTickListener = l;
     }
 
+    public void setOnFinishListener(OnFinishListener l){
+        mOnFinishListener = l;
+    }
+
     private CountDownTimer mTimer = null;
 
     public interface OnTickListener {
         String getText(long timeRemainingInMillis);
+    }
+
+    public interface OnFinishListener {
+        void onStop();
     }
 }

@@ -1,13 +1,11 @@
 package com.fzuclover.putmedown.businessmodule.timingrecord;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.fzuclover.putmedown.BaseActivity;
 import com.fzuclover.putmedown.R;
-import com.fzuclover.putmedown.businessmodule.timing.TimingContract;
 
-public class TimingRecordActivity extends BaseActivity implements TimingContract.View {
+public class TimingRecordActivity extends BaseActivity implements TimingRecordContract.View {
 
 
     @Override
@@ -15,5 +13,6 @@ public class TimingRecordActivity extends BaseActivity implements TimingContract
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timing_record);
     }
+
 
 }

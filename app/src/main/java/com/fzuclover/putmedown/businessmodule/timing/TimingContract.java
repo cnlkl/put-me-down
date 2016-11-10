@@ -7,6 +7,10 @@ package com.fzuclover.putmedown.businessmodule.timing;
 public interface TimingContract {
 
     interface View {
+        void startTiming(int totalTime);
+        void stopTimng();
+        void showStopTimingDialog();
+        void toTotalTimingTodayActivity();
     }
 
     interface Presenter {
