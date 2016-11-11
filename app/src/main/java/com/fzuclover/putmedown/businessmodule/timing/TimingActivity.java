@@ -108,7 +108,6 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
     @Override
     public void stopTimng() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("终止备注");
         builder.setCancelable(true);
         View view = getLayoutInflater().inflate(R.layout.dialog_stoptiming_comments, null);
         builder.setView(view);

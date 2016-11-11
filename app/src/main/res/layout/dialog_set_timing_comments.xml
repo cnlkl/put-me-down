@@ -10,11 +10,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">
 
-        <NumberPicker
+        <com.fzuclover.putmedown.view.NumPickerView
             android:layout_gravity="center_vertical"
             android:id="@+id/minute_picker"
             android:layout_width="60dp"
-            android:layout_height="100dp"
+            android:layout_height="115dp"
             />
 
         <TextView
@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:textSize="30sp"
+            android:textColor="@color/base_color"
             android:text="分钟"/>
     </LinearLayout>
 
@@ -31,6 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
+        android:hint="为本次旅程写个备注吧~"
         />
 
 </LinearLayout>

@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
+        android:hint="在这记录下让你停止旅程的事情~"
         />
 
 

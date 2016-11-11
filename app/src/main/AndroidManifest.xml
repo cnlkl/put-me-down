@@ -15,11 +15,12 @@
         <activity android:name=".businessmodule.forgotpassword.ForgotPasswordActivity" />
         <activity android:name=".businessmodule.register.RegisterActivity" />
         <activity android:name=".businessmodule.setting.SettingActivity" />
-        <activity android:name=".businessmodule.starttiming.StartTimingActivity" />
         <activity android:name=".businessmodule.timing.TimingActivity" >
 
         </activity>
-        <activity android:name=".businessmodule.timingrecord.TimingRecordActivity" />
+        <activity android:name=".businessmodule.timingrecord.TimingRecordActivity" >
+
+        </activity>
         <activity android:name=".businessmodule.totaltimingtoday.TotalTimingTodayActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

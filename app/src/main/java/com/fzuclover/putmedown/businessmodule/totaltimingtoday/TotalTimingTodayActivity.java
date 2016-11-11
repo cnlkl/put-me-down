@@ -24,6 +24,7 @@ import com.fzuclover.putmedown.businessmodule.timingrecord.TimingRecordActivity;
 import com.fzuclover.putmedown.model.RecordModel;
 import com.fzuclover.putmedown.model.UserModel;
 import com.fzuclover.putmedown.util.LogUtil;
+import com.fzuclover.putmedown.view.NumPickerView;
 import com.fzuclover.putmedown.view.WaveProgressView;
 
 import java.util.regex.Matcher;
@@ -197,11 +198,10 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
     @Override
     public void showEditTimingCommentsDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("本次计时备注");
         builder.setCancelable(true);
         View view = getLayoutInflater().inflate(R.layout.dialog_set_timing_comments, null);
-
-        final NumberPicker minutePicker = (NumberPicker) view.findViewById(R.id.minute_picker);
+        //设置时间选择
+        final NumPickerView minutePicker = (NumPickerView) view.findViewById(R.id.minute_picker);
         final String[] minuteStrs = {"15", "30", "45", "60"};
         minutePicker.setDisplayedValues(minuteStrs);
         minutePicker.setMinValue(0);
@@ -227,9 +227,6 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
         builder.show();
     }
 
-    private void initNumPikcer(View v){
-
-    }
 
 
 }
