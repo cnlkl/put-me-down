@@ -21,6 +21,7 @@ public class TotalTimingTodayContract {
     interface Presenter {
         void saveTargetTime(Context context, int targetTime);
         int getTargetTime(Context context);
+        int getTimedToday(Context context);
     }
 
 }

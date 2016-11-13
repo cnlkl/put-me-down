@@ -57,6 +57,13 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
         init();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mTimedToday = mPresenter.getTimedToday(this);
+        mWaveProgressView.setCurrent(mTimedToday, mTimedToday + "min/" + mTargetTime + "min");
+    }
+
     private void init(){
         mPresenter = new TotalTimingTodayPresenter(this, RecordModel.getRecordModelInstance(),
                 UserModel.getUserModelInstance());
@@ -77,8 +84,8 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
 
         mWaveProgressView = (WaveProgressView) findViewById(R.id.wave_progress_view);
         mWaveProgressView.setOnClickListener(this);
-        //TODO 本日已经计时时间从sharepreferences获取
-        mTimedToday = 0;
+        //今日已计时时间
+        mTimedToday = mPresenter.getTimedToday(this);
         mTargetTime = mPresenter.getTargetTime(this);
         //设置进度球最大进度为目标时间
         mWaveProgressView.setMaxProgress(mTargetTime);
@@ -202,10 +209,11 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
         View view = getLayoutInflater().inflate(R.layout.dialog_set_timing_comments, null);
         //设置时间选择
         final NumPickerView minutePicker = (NumPickerView) view.findViewById(R.id.minute_picker);
-        final String[] minuteStrs = {"15", "30", "45", "60"};
+        //TODO 1分钟测试用，后期删除
+        final String[] minuteStrs = {"15", "30", "45", "60", "1"};
         minutePicker.setDisplayedValues(minuteStrs);
         minutePicker.setMinValue(0);
-        minutePicker.setMaxValue(3);
+        minutePicker.setMaxValue(4);
 
         builder.setView(view);
         EditText commentEdt = (EditText) findViewById(R.id.comment_edt);

@@ -22,6 +22,7 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
     private Button mStopBtn;
     private int mTotalTime;
     private int mRemainingTime;
+    private TimingPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,8 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
     }
 
     private void init(){
+        mPresenter = new TimingPresenter();
+
         mStopBtn = (Button) findViewById(R.id.stop_timing_btn);
         mStopBtn.setOnClickListener(this);
 
@@ -64,8 +67,9 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
         mTickTockView.setOnFinishListener(new TickTockView.OnFinishListener() {
             @Override
             public void onStop() {
-                //TODO 计时结束时的动作
+                //计时成功时的动作
                 toastShort("success!!!");
+                mPresenter.saveTimedToday(TimingActivity.this, mTotalTime);
             }
         });
 
@@ -117,7 +121,7 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
             public void onClick(DialogInterface dialogInterface, int i) {
                 //TODO 保存终止备注到数据库
                 mTickTockView.stop();
-                toTotalTimingTodayActivity();
+                finish();
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -134,9 +138,4 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
 
     }
 
-    @Override
-    public void toTotalTimingTodayActivity() {
-        Intent intent = new Intent(TimingActivity.this, TotalTimingTodayActivity.class);
-        startActivity(intent);
-    }
 }

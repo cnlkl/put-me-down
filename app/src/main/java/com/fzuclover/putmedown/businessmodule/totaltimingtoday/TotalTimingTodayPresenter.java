@@ -37,5 +37,11 @@ public class TotalTimingTodayPresenter implements TotalTimingTodayContract.Prese
         return sharedPreferences.getInt("target_time",180);
     }
 
+    @Override
+    public int getTimedToday(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getInt("timed_today", 0);
+    }
+
 
 }
