@@ -1,5 +1,9 @@
 package com.fzuclover.putmedown.businessmodule.totaltimingtoday;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import com.fzuclover.putmedown.model.IRecordModel;
 import com.fzuclover.putmedown.model.IUserModel;
 
@@ -19,5 +23,19 @@ public class TotalTimingTodayPresenter implements TotalTimingTodayContract.Prese
         mRecordModel = recordModel;
         mUserModel = userModel;
     }
+
+    @Override
+    public void saveTargetTime(Context context, int targetTime) {
+        SharedPreferences.Editor editor= PreferenceManager.getDefaultSharedPreferences(context).edit();
+        editor.putInt("target_time",targetTime);
+        editor.commit();
+    }
+
+    @Override
+    public int getTargetTime(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getInt("target_time",180);
+    }
+
 
 }

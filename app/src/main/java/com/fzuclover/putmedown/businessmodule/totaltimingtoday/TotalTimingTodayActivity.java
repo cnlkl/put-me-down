@@ -79,8 +79,7 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
         mWaveProgressView.setOnClickListener(this);
         //TODO 本日已经计时时间从sharepreferences获取
         mTimedToday = 0;
-        //todo 每日目标时间sharepreferences获取
-        mTargetTime = 3 * 60;
+        mTargetTime = mPresenter.getTargetTime(this);
         //设置进度球最大进度为目标时间
         mWaveProgressView.setMaxProgress(mTargetTime);
         mWaveProgressView.setCurrent(mTimedToday, mTimedToday + "min/" + mTargetTime + "min");
@@ -162,6 +161,7 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                //正则表达式判断输入是否是数字
                 Pattern pattern = Pattern.compile("[0-9]*");
                 String targetTimeStr = targetTimeEdt.getText().toString();
                 if(!TextUtils.isEmpty(targetTimeStr)){
@@ -171,7 +171,7 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
                         temp = Integer.valueOf(targetTimeStr);
                         if(temp <= 1440){
                             mTargetTime = temp;
-                            //todo 将mTargetTime持久化
+                            mPresenter.saveTargetTime(TotalTimingTodayActivity.this, mTargetTime);
                             mWaveProgressView.setMaxProgress(mTargetTime);
                             mWaveProgressView.setCurrent(mTimedToday, mTimedToday + "min/" + mTargetTime + "min");
                         }else{
