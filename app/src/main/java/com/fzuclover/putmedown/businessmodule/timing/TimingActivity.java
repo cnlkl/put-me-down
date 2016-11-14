@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import com.fzuclover.putmedown.BaseActivity;
 import com.fzuclover.putmedown.R;
 import com.fzuclover.putmedown.businessmodule.totaltimingtoday.TotalTimingTodayActivity;
+import com.fzuclover.putmedown.model.RecordModel;
 import com.fzuclover.putmedown.util.LogUtil;
 import com.fzuclover.putmedown.view.TickTockView;
 
@@ -23,6 +25,7 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
     private int mTotalTime;
     private int mRemainingTime;
     private TimingPresenter mPresenter;
+    private EditText mCommentEdt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,7 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
     }
 
     private void init(){
-        mPresenter = new TimingPresenter();
+        mPresenter = new TimingPresenter(this, RecordModel.getInstance(this));
 
         mStopBtn = (Button) findViewById(R.id.stop_timing_btn);
         mStopBtn.setOnClickListener(this);
@@ -68,7 +71,7 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
             @Override
             public void onStop() {
                 //计时成功时的动作
-                toastShort("success!!!");
+                mPresenter.updateTimingRecord(true, getIntent().getIntExtra("id", 0));
                 mPresenter.saveTimedToday(TimingActivity.this, mTotalTime);
             }
         });
@@ -86,8 +89,6 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.stop_timing_btn:
-                //todo 设置停止计时按钮的事件到presenter
-                showStopTimingDialog();
                 stopTimng();
                 break;
             default:
@@ -115,11 +116,11 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
         builder.setCancelable(true);
         View view = getLayoutInflater().inflate(R.layout.dialog_stoptiming_comments, null);
         builder.setView(view);
-        EditText commentEdt = (EditText) findViewById(R.id.comment_edt);
+        mCommentEdt = (EditText) view.findViewById(R.id.comment_edt);
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                //TODO 保存终止备注到数据库
+                mPresenter.updateTimingRecord(false, getIntent().getIntExtra("id", 0));
                 mTickTockView.stop();
                 finish();
             }
@@ -134,8 +135,14 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
     }
 
     @Override
-    public void showStopTimingDialog() {
-
+    public String getFailComments() {
+        if(mCommentEdt != null){
+            String failComment = mCommentEdt.getText().toString();
+            if(!TextUtils.isEmpty(failComment)){
+                return failComment;
+            }
+        }
+        return "";
     }
 
 }

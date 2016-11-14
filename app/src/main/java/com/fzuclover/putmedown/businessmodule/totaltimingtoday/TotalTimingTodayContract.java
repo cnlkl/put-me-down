@@ -11,7 +11,7 @@ public class TotalTimingTodayContract {
     interface View {
         void toSettingActivity();
         void toLoginActivity();
-        void toTimingActivity(int minute);
+        void toTimingActivity(int minute, int id);
         void toAchievementActivity();
         void toHistoryActivity();
         void showSetTargetTimeDialog();
@@ -22,6 +22,7 @@ public class TotalTimingTodayContract {
         void saveTargetTime(Context context, int targetTime);
         int getTargetTime(Context context);
         int getTimedToday(Context context);
+        int saveTimingRecord(Context context, int totalTime, String comments);
     }
 
 }

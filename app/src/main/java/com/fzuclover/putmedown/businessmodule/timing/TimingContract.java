@@ -11,11 +11,13 @@ public interface TimingContract {
     interface View {
         void startTiming(int totalTime);
         void stopTimng();
-        void showStopTimingDialog();
+        String getFailComments();
     }
 
     interface Presenter {
         //保存到今日已计时时间
         void saveTimedToday(Context context, int time);
+        //计时结束后保存记录到数据库
+        void updateTimingRecord(Boolean isSuccess, int id);
     }
 }

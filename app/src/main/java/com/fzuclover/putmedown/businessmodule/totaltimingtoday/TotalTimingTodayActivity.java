@@ -65,8 +65,8 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
     }
 
     private void init(){
-        mPresenter = new TotalTimingTodayPresenter(this, RecordModel.getRecordModelInstance(),
-                UserModel.getUserModelInstance());
+        mPresenter = new TotalTimingTodayPresenter(this, RecordModel.getInstance(this),
+                UserModel.getInstance(this));
 
         mStartBtn = (Button) findViewById(R.id.start_timing_btn);
         mStartBtn.setOnClickListener(this);
@@ -139,9 +139,10 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
     }
 
     @Override
-    public void toTimingActivity(int mimute) {
+    public void toTimingActivity(int mimute, int id) {
         Intent intent = new Intent(TotalTimingTodayActivity.this, TimingActivity.class);
         intent.putExtra("minute", mimute);
+        intent.putExtra("id", id);
         startActivity(intent);
     }
 
@@ -216,14 +217,15 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
         minutePicker.setMaxValue(4);
 
         builder.setView(view);
-        EditText commentEdt = (EditText) findViewById(R.id.comment_edt);
+        final EditText commentEdt = (EditText) view.findViewById(R.id.comment_edt);
         builder.setPositiveButton("开始", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                //todo 保存备注到数据库
                 int index = minutePicker.getValue();
                 int minute = Integer.valueOf(minuteStrs[index]);
-                toTimingActivity(minute);
+                String comment = commentEdt.getText().toString();
+                int id = mPresenter.saveTimingRecord(TotalTimingTodayActivity.this, minute, comment);
+                toTimingActivity(minute, id);
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
