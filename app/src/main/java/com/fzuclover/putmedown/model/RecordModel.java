@@ -8,7 +8,7 @@ import android.text.TextUtils;
 
 import com.fzuclover.putmedown.model.bean.Record;
 import com.fzuclover.putmedown.model.db.TimingRecordDBHelper;
-import com.fzuclover.putmedown.util.LogUtil;
+import com.fzuclover.putmedown.utils.LogUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

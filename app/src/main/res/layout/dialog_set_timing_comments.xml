@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">
 
-        <com.fzuclover.putmedown.view.NumPickerView
+        <com.fzuclover.putmedown.views.NumPickerView
             android:layout_gravity="center_vertical"
             android:id="@+id/minute_picker"
             android:layout_width="60dp"

@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.fzuclover.putmedown.businessmodule.timing.TimingActivity">
+    tools:context="com.fzuclover.putmedown.features.timing.TimingActivity">
 
-    <com.fzuclover.putmedown.view.TickTockView
+    <com.fzuclover.putmedown.views.TickTockView
         android:id="@+id/count_down_view"
         android:layout_width="280dp"
         android:layout_height="280dp"

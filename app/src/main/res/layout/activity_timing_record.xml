@@ -4,9 +4,9 @@
     android:id="@+id/activity_timing_record"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.fzuclover.putmedown.businessmodule.timingrecord.TimingRecordActivity">
+    tools:context="com.fzuclover.putmedown.features.timingrecord.TimingRecordActivity">
 
-    <com.fzuclover.putmedown.view.pmdtimeline.FreeTimeLine
+    <com.fzuclover.putmedown.views.pmdtimeline.FreeTimeLine
         android:id="@+id/time_line_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

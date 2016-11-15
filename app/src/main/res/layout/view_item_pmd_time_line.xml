@@ -23,7 +23,7 @@
         tools:text="2016/1/8"
         tools:visibility="visible"/>
 
-    <com.fzuclover.putmedown.view.pmdtimeline.internal.ConnectorView
+    <com.fzuclover.putmedown.views.pmdtimeline.internal.ConnectorView
         android:id="@+id/__ftl_row_connector"
         android:layout_width="16dp"
         android:layout_height="match_parent"
@@ -53,7 +53,7 @@
             android:visibility="gone"/>
     </LinearLayout>
 
-    <com.fzuclover.putmedown.view.pmdtimeline.internal.ToggleView
+    <com.fzuclover.putmedown.views.pmdtimeline.internal.ToggleView
         android:id="@+id/__ftl_row_toggle"
         android:layout_width="12dp"
         android:layout_height="12dp"

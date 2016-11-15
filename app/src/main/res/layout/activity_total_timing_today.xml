@@ -4,14 +4,14 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.fzuclover.putmedown.businessmodule.totaltimingtoday.TotalTimingTodayActivity">
+    tools:context="com.fzuclover.putmedown.features.totaltimingtoday.TotalTimingTodayActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.fzuclover.putmedown.view.WaveProgressView
+        <com.fzuclover.putmedown.views.WaveProgressView
             android:id="@+id/wave_progress_view"
             android:layout_width="260dp"
             android:layout_height="260dp"
