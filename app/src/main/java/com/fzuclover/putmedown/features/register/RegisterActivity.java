@@ -1,5 +1,8 @@
 
+
 package com.fzuclover.putmedown.features.register;
+
+
 import android.os.Bundle;
 import android.view.View;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -55,7 +58,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
                       mCheckSecEditText.setError("密码不一致");
                       mCheckSecEditText.setText("");
                   }
-                  break;
+                  break;a
           }
     }
 }

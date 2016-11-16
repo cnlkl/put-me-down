@@ -94,7 +94,7 @@
                 android:textSize="18dp"
                 android:layout_marginTop="0dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight=" 20dp"
+                android:layout_marginRight="20dp"
                 app:met_floatingLabel="normal"
                 app:met_floatingLabelText="新密码"
                 app:met_singleLineEllipsis="true"
