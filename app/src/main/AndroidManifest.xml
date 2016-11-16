@@ -9,7 +9,13 @@
         android:supportsRtl="true"
         android:theme="@style/NoToolBar">
 
-        <activity android:name=".features.login.LoginActivity" />
+        <activity android:name=".features.login.LoginActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".features.achievement.AchievementActivity" />
         <activity android:name=".features.forgotpassword.ForgotPasswordActivity" />
         <activity android:name=".features.register.RegisterActivity" />
@@ -17,11 +23,7 @@
         <activity android:name=".features.timing.TimingActivity" />
         <activity android:name=".features.timingrecord.TimingRecordActivity" />
         <activity android:name=".features.totaltimingtoday.TotalTimingTodayActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
 

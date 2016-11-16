@@ -39,21 +39,21 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
           switch(tag){
               case 1:
                   mPhonenum=mPhonumEditText.getText().toString();
-                  if(mPhonenum.length()<11)
+                  if((mPhonenum.length()<11&&mPhonenum.length()>0) || mPhonenum.length()>11)
                   {
-                      mPhonumEditText.setError("请输入手机号码");
+                      mPhonumEditText.setError("手机号码格式错误");
                   }
                   break;
               case 2:
                   mSecret=mSecretEditText.getText().toString();
-                  if(mSecret.length()<5)
+                  if(mSecret.length()<6)
                   {
-                      mSecretEditText.setError("密码应包含5-20个字符");
+                      mSecretEditText.setError("密码应包含6-20个字符");
                   }
                   break;
               case 3:
                   inputInformation=mCheckSecEditText.getText().toString();
-                  if(inputInformation!=mSecret)
+                  if(!inputInformation.equals(mSecret))
                   {
                       mCheckSecEditText.setError("密码不一致");
                       mCheckSecEditText.setText("");
