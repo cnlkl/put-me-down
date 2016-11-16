@@ -5,11 +5,11 @@ package com.fzuclover.putmedown.model.bean;
  */
 
 public class Achievement {
-    //总计时时间
+    //历史总计时时间
     private int totalTime;
-    //总成功次数
+    //历史总成功次数
     private int totalSuccess;
-    //总失败次数
+    //历史总失败次数
     private int totalFailed;
 
     public int getTotalFailed() {

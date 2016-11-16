@@ -5,9 +5,13 @@ package com.fzuclover.putmedown.model.bean;
  */
 
 public class DayAchievement {
+    //日期
     private String date;
+    //每日总计时时间
     private int total_time;
+    //每日总成功次数
     private int succes_times;
+    //每日总失败次数
     private int failed_times;
 
     public String getDate() {

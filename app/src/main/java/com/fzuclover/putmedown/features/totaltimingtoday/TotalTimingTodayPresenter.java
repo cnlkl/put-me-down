@@ -4,8 +4,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.fzuclover.putmedown.model.AchievementModel;
+import com.fzuclover.putmedown.model.IAchievementModel;
 import com.fzuclover.putmedown.model.IRecordModel;
 import com.fzuclover.putmedown.model.IUserModel;
+import com.fzuclover.putmedown.model.RecordModel;
+import com.fzuclover.putmedown.model.UserModel;
+import com.fzuclover.putmedown.model.bean.Achievement;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,12 +24,14 @@ public class TotalTimingTodayPresenter implements TotalTimingTodayContract.Prese
     private TotalTimingTodayContract.View mView;
     private IRecordModel mRecordModel;
     private IUserModel mUserModel;
+    private IAchievementModel mAchievementModel;
 
-    public TotalTimingTodayPresenter(TotalTimingTodayContract.View view, IRecordModel recordModel,
-                                     IUserModel userModel){
+    public TotalTimingTodayPresenter(TotalTimingTodayContract.View view){
         mView = view;
-        mRecordModel = recordModel;
-        mUserModel = userModel;
+        mRecordModel = RecordModel.getInstance((Context)view);
+        mUserModel = UserModel.getInstance((Context)view);
+        mAchievementModel = AchievementModel.getAchieveMentModelInstance((Context)view);
+
     }
 
     @Override
@@ -49,9 +56,17 @@ public class TotalTimingTodayPresenter implements TotalTimingTodayContract.Prese
         if(date.equals(dateNow)){
             return sharedPreferences.getInt("timed_today", 0);
         }else{
+            //保存前一天的数据到数据库
+            int successTimesToday = sharedPreferences.getInt("success_times_today", 0);
+            int failedTImesToday = sharedPreferences.getInt("failed_times_today", 0);
+            int timedToday = sharedPreferences.getInt("timed_today", 0);
+            mAchievementModel.saveAchievementEveryDay(date, timedToday, successTimesToday, failedTImesToday);
+            //保存新一天的数据
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("date", dateNow);
             editor.putInt("timed_today", 0);
+            editor.putInt("success_times_today",0);
+            editor.putInt("failed_times_today", 0);
             editor.commit();
             return 0;
         }

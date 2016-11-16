@@ -74,21 +74,15 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
 
     @Override
     protected void onStart() {
-        super.onStart();// ATTENTION: This was auto-generated to implement the App Indexing API.
-// See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
+        super.onStart();
         mTimedToday = mPresenter.getTimedToday(this);
         mWaveProgressView.setCurrent(mTimedToday, mTimedToday + "min/" + mTargetTime + "min");
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
     }
 
 
 
     private void init() {
-        mPresenter = new TotalTimingTodayPresenter(this, RecordModel.getInstance(this),
-                UserModel.getInstance(this));
+        mPresenter = new TotalTimingTodayPresenter(this);
 
         mStartBtn = (Button) findViewById(R.id.start_timing_btn);
         mStartBtn.setOnClickListener(this);
@@ -251,8 +245,12 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
                 int index = minutePicker.getValue();
                 int minute = Integer.valueOf(minuteStrs[index]);
                 String comment = commentEdt.getText().toString();
-                int id = mPresenter.saveTimingRecord(TotalTimingTodayActivity.this, minute, comment);
-                toTimingActivity(minute, id);
+                if(TextUtils.isEmpty(comment)){
+                    toastShort("请输入备注");
+                }else{
+                    int id = mPresenter.saveTimingRecord(TotalTimingTodayActivity.this, minute, comment);
+                    toTimingActivity(minute, id);
+                }
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -263,33 +261,5 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
         });
         builder.show();
     }
-
-
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("TotalTimingToday Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
-    }
-
 
 }

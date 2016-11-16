@@ -12,12 +12,15 @@ public interface TimingContract {
         void startTiming(int totalTime, int second);
         void stopTimng();
         String getFailComments();
+        boolean isSuccess();
+        int getRecordId();
+        int getTotalTime();
     }
 
     interface Presenter {
         //保存到今日已计时时间
         void saveTimedToday(Context context, int time);
         //计时结束后保存记录到数据库
-        void updateTimingRecord(Boolean isSuccess, int id);
+        void updateTimingRecord();
     }
 }
