@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.fzuclover.putmedown.BaseActivity;
 import com.fzuclover.putmedown.R;
-<<<<<<< HEAD:app/src/main/java/com/fzuclover/putmedown/features/totaltimingtoday/TotalTimingTodayActivity.java
 import com.fzuclover.putmedown.features.achievement.AchievementActivity;
 import com.fzuclover.putmedown.features.login.LoginActivity;
 import com.fzuclover.putmedown.features.setting.SettingActivity;
@@ -26,30 +25,20 @@ import com.fzuclover.putmedown.model.RecordModel;
 import com.fzuclover.putmedown.model.UserModel;
 import com.fzuclover.putmedown.views.NumPickerView;
 import com.fzuclover.putmedown.views.WaveProgressView;
-=======
-import com.fzuclover.putmedown.businessmodule.achievement.AchievementActivity;
-import com.fzuclover.putmedown.businessmodule.login.LoginActivity;
-import com.fzuclover.putmedown.businessmodule.register.RegisterActivity;
-import com.fzuclover.putmedown.businessmodule.setting.SettingActivity;
-import com.fzuclover.putmedown.businessmodule.timing.TimingActivity;
-import com.fzuclover.putmedown.businessmodule.timingrecord.TimingRecordActivity;
 import com.fzuclover.putmedown.model.RecordModel;
 import com.fzuclover.putmedown.model.UserModel;
-import com.fzuclover.putmedown.util.LogUtil;
-import com.fzuclover.putmedown.view.NumPickerView;
-import com.fzuclover.putmedown.view.WaveProgressView;
+import com.fzuclover.putmedown.utils.LogUtil;
+import com.fzuclover.putmedown.views.NumPickerView;
+import com.fzuclover.putmedown.views.WaveProgressView;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
->>>>>>> feature339:app/src/main/java/com/fzuclover/putmedown/businessmodule/totaltimingtoday/TotalTimingTodayActivity.java
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import at.markushi.ui.CircleButton;
 
-public class TotalTimingTodayActivity extends BaseActivity implements TotalTimingTodayContract.View,
-        View.OnClickListener {
+public class TotalTimingTodayActivity extends BaseActivity implements TotalTimingTodayContract.View, View.OnClickListener {
 
     private TotalTimingTodayContract.Presenter mPresenter;
 
@@ -95,15 +84,11 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
         AppIndex.AppIndexApi.start(client, getIndexApiAction());
     }
 
-<<<<<<< HEAD:app/src/main/java/com/fzuclover/putmedown/features/totaltimingtoday/TotalTimingTodayActivity.java
-    private void init(){
+
+
+    private void init() {
         mPresenter = new TotalTimingTodayPresenter(this, RecordModel.getInstance(this),
                 UserModel.getInstance(this));
-=======
-    private void init() {
-        mPresenter = new TotalTimingTodayPresenter(this, RecordModel.getRecordModelInstance(),
-                UserModel.getUserModelInstance());
->>>>>>> feature339:app/src/main/java/com/fzuclover/putmedown/businessmodule/totaltimingtoday/TotalTimingTodayActivity.java
 
         mStartBtn = (Button) findViewById(R.id.start_timing_btn);
         mStartBtn.setOnClickListener(this);
@@ -305,4 +290,6 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
     }
+
+
 }

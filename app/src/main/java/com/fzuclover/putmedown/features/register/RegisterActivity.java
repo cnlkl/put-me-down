@@ -58,7 +58,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
                       mCheckSecEditText.setError("密码不一致");
                       mCheckSecEditText.setText("");
                   }
-                  break;a
+                  break;
           }
     }
 }

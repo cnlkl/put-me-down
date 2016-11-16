@@ -8,10 +8,10 @@ import android.widget.TextView;
 
 import com.fzuclover.putmedown.BaseActivity;
 import com.fzuclover.putmedown.R;
-import com.fzuclover.putmedown.businessmodule.forgotpassword.ForgotPasswordActivity;
-import com.fzuclover.putmedown.businessmodule.forgotpassword.ForgotPasswordContract;
-import com.fzuclover.putmedown.businessmodule.register.RegisterActivity;
-import com.fzuclover.putmedown.businessmodule.totaltimingtoday.TotalTimingTodayActivity;
+import com.fzuclover.putmedown.features.forgotpassword.ForgotPasswordActivity;
+import com.fzuclover.putmedown.features.forgotpassword.ForgotPasswordContract;
+import com.fzuclover.putmedown.features.register.RegisterActivity;
+import com.fzuclover.putmedown.features.totaltimingtoday.TotalTimingTodayActivity;
 
 public class LoginActivity extends BaseActivity implements LoginContract.View,View.OnClickListener {
 
