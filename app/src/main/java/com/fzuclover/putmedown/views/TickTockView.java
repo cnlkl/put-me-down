@@ -22,11 +22,9 @@ import android.view.View;
 import com.fzuclover.putmedown.R;
 
 import java.util.Calendar;
-
 /**
  * Created by lkl on 2016/11/9.
  */
-
 public class TickTockView extends View{
     private Paint mFillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint mEmptyPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
