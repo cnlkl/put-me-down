@@ -2,6 +2,8 @@ package com.fzuclover.putmedown.features.timing;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -26,6 +28,10 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
     private int mRemainingTime;
     private TimingPresenter mPresenter;
     private EditText mCommentEdt;
+    private boolean mIsSuccess;
+    private static final int TIMING_SUCCESS = 0;
+    private Handler mHandler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,7 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
 
     private void init(){
         mPresenter = new TimingPresenter(this, RecordModel.getInstance(this));
+        mIsSuccess = false;
 
         mStopBtn = (Button) findViewById(R.id.stop_timing_btn);
         mStopBtn.setOnClickListener(this);
@@ -72,10 +79,25 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
             @Override
             public void onStop() {
                 //计时成功时的动作
+                mIsSuccess = true;
+                mHandler.sendEmptyMessage(TIMING_SUCCESS);
                 mPresenter.updateTimingRecord(true, getIntent().getIntExtra("id", 0));
                 mPresenter.saveTimedToday(TimingActivity.this, mTotalTime);
             }
         });
+
+        mHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what){
+                    case TIMING_SUCCESS:
+                        mStopBtn.setText("SUCCESS");
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
 
     }
 
@@ -112,26 +134,30 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
 
     @Override
     public void stopTimng() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(true);
-        View view = getLayoutInflater().inflate(R.layout.dialog_stoptiming_comments, null);
-        builder.setView(view);
-        mCommentEdt = (EditText) view.findViewById(R.id.comment_edt);
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                mPresenter.updateTimingRecord(false, getIntent().getIntExtra("id", 0));
-                mTickTockView.stop();
-                finish();
-            }
-        });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+        if(mIsSuccess){
+            finish();
+        }else{
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setCancelable(true);
+            View view = getLayoutInflater().inflate(R.layout.dialog_stoptiming_comments, null);
+            builder.setView(view);
+            mCommentEdt = (EditText) view.findViewById(R.id.comment_edt);
+            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    mPresenter.updateTimingRecord(mIsSuccess, getIntent().getIntExtra("id", 0));
+                    mTickTockView.stop();
+                    finish();
+                }
+            });
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
 
-            }
-        });
-        builder.show();
+                }
+            });
+            builder.show();
+        }
     }
 
     @Override
