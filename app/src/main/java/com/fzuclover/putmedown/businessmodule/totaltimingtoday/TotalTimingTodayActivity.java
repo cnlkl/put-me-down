@@ -2,6 +2,7 @@ package com.fzuclover.putmedown.businessmodule.totaltimingtoday;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -18,6 +19,7 @@ import com.fzuclover.putmedown.BaseActivity;
 import com.fzuclover.putmedown.R;
 import com.fzuclover.putmedown.businessmodule.achievement.AchievementActivity;
 import com.fzuclover.putmedown.businessmodule.login.LoginActivity;
+import com.fzuclover.putmedown.businessmodule.register.RegisterActivity;
 import com.fzuclover.putmedown.businessmodule.setting.SettingActivity;
 import com.fzuclover.putmedown.businessmodule.timing.TimingActivity;
 import com.fzuclover.putmedown.businessmodule.timingrecord.TimingRecordActivity;
@@ -26,13 +28,17 @@ import com.fzuclover.putmedown.model.UserModel;
 import com.fzuclover.putmedown.util.LogUtil;
 import com.fzuclover.putmedown.view.NumPickerView;
 import com.fzuclover.putmedown.view.WaveProgressView;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import at.markushi.ui.CircleButton;
 
-
-public class TotalTimingTodayActivity extends BaseActivity implements TotalTimingTodayContract.View ,
-        View.OnClickListener{
+public class TotalTimingTodayActivity extends BaseActivity implements TotalTimingTodayContract.View,
+        View.OnClickListener {
 
     private TotalTimingTodayContract.Presenter mPresenter;
 
@@ -48,6 +54,12 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
     private int mTimedToday;
     //目标时间(分钟)
     private int mTargetTime;
+    private CircleButton  mLoginBtn;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
 
     @Override
@@ -55,16 +67,24 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_total_timing_today);
         init();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
     protected void onStart() {
-        super.onStart();
+        super.onStart();// ATTENTION: This was auto-generated to implement the App Indexing API.
+// See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
         mTimedToday = mPresenter.getTimedToday(this);
         mWaveProgressView.setCurrent(mTimedToday, mTimedToday + "min/" + mTargetTime + "min");
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
     }
 
-    private void init(){
+    private void init() {
         mPresenter = new TotalTimingTodayPresenter(this, RecordModel.getRecordModelInstance(),
                 UserModel.getUserModelInstance());
 
@@ -78,6 +98,8 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
         mAchievementLayout.setOnClickListener(this);
         mHistoryLayout = (LinearLayout) findViewById(R.id.history_layout);
         mHistoryLayout.setOnClickListener(this);
+        mLoginBtn=(CircleButton)findViewById(R.id.login_btn);
+        mLoginBtn.setOnClickListener(this);
 
         mCurrentPlaceImg = (ImageView) findViewById(R.id.current_place_img);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -92,7 +114,7 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
         mWaveProgressView.setCurrent(mTimedToday, mTimedToday + "min/" + mTargetTime + "min");
         mWaveProgressView.setWaveColor("#5b9ef4");
         //设置波浪高度宽度
-        mWaveProgressView.setWave(10,30);
+        mWaveProgressView.setWave(10, 30);
         //设置波动速读
         mWaveProgressView.setmWaveSpeed(10);
         //设置字体颜色大小
@@ -101,7 +123,7 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.start_timing_btn:
                 showEditTimingCommentsDialog();
                 break;
@@ -121,6 +143,9 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
             case R.id.history_layout:
                 toHistoryActivity();
                 break;
+            case R.id.login_btn:
+                toLoginActivity();
+
             default:
                 break;
         }
@@ -128,7 +153,7 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
 
     @Override
     public void toSettingActivity() {
-        Intent intent = new Intent(TotalTimingTodayActivity.this, SettingActivity.class);
+        Intent intent = new Intent(TotalTimingTodayActivity.this,SettingActivity.class);
         startActivity(intent);
     }
 
@@ -171,20 +196,20 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
                 //正则表达式判断输入是否是数字
                 Pattern pattern = Pattern.compile("[0-9]*");
                 String targetTimeStr = targetTimeEdt.getText().toString();
-                if(!TextUtils.isEmpty(targetTimeStr)){
+                if (!TextUtils.isEmpty(targetTimeStr)) {
                     Matcher isNum = pattern.matcher(targetTimeStr);
-                    if(isNum.matches()){
+                    if (isNum.matches()) {
                         int temp;
                         temp = Integer.valueOf(targetTimeStr);
-                        if(temp <= 1440){
+                        if (temp <= 1440) {
                             mTargetTime = temp;
                             mPresenter.saveTargetTime(TotalTimingTodayActivity.this, mTargetTime);
                             mWaveProgressView.setMaxProgress(mTargetTime);
                             mWaveProgressView.setCurrent(mTimedToday, mTimedToday + "min/" + mTargetTime + "min");
-                        }else{
+                        } else {
                             toastShort("目标时间超过24小时啦>.<");
                         }
-                    }else{
+                    } else {
                         toastShort("请输入数字");
                     }
                 }
@@ -236,5 +261,29 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
     }
 
 
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("TotalTimingToday Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
+    }
 }
