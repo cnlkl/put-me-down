@@ -13,7 +13,6 @@ import android.widget.EditText;
 
 import com.fzuclover.putmedown.BaseActivity;
 import com.fzuclover.putmedown.R;
-import com.fzuclover.putmedown.model.RecordModel;
 import com.fzuclover.putmedown.utils.LogUtil;
 import com.fzuclover.putmedown.views.TickTockView;
 
@@ -31,6 +30,7 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
     private boolean mIsSuccess;
     private static final int TIMING_SUCCESS = 0;
     private Handler mHandler;
+
 
 
     @Override
@@ -150,6 +150,7 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
                     }else{
                         mPresenter.updateTimingRecord();
                         mTickTockView.stop();
+                        mPresenter.shareText();
                         finish();
                     }
                 }

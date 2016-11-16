@@ -53,7 +53,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
                   break;
               case 3:
                   inputInformation=mCheckSecEditText.getText().toString();
-                  if(inputInformation!=mSecret)
+                  if(!inputInformation.equals(mSecret))
                   {
                       mCheckSecEditText.setError("密码不一致");
                       mCheckSecEditText.setText("");

@@ -21,19 +21,11 @@ import com.fzuclover.putmedown.features.login.LoginActivity;
 import com.fzuclover.putmedown.features.setting.SettingActivity;
 import com.fzuclover.putmedown.features.timing.TimingActivity;
 import com.fzuclover.putmedown.features.timingrecord.TimingRecordActivity;
-import com.fzuclover.putmedown.model.RecordModel;
-import com.fzuclover.putmedown.model.UserModel;
 import com.fzuclover.putmedown.views.NumPickerView;
 import com.fzuclover.putmedown.views.WaveProgressView;
-import com.fzuclover.putmedown.model.RecordModel;
-import com.fzuclover.putmedown.model.UserModel;
-import com.fzuclover.putmedown.utils.LogUtil;
-import com.fzuclover.putmedown.views.NumPickerView;
-import com.fzuclover.putmedown.views.WaveProgressView;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import at.markushi.ui.CircleButton;
@@ -55,11 +47,6 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
     //目标时间(分钟)
     private int mTargetTime;
     private CircleButton  mLoginBtn;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
 
     @Override
@@ -67,9 +54,7 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_total_timing_today);
         init();
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
     }
 
     @Override
@@ -82,6 +67,7 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
 
 
     private void init() {
+
         mPresenter = new TotalTimingTodayPresenter(this);
 
         mStartBtn = (Button) findViewById(R.id.start_timing_btn);
