@@ -13,7 +13,6 @@ import android.widget.EditText;
 
 import com.fzuclover.putmedown.BaseActivity;
 import com.fzuclover.putmedown.R;
-import com.fzuclover.putmedown.model.RecordModel;
 import com.fzuclover.putmedown.utils.LogUtil;
 import com.fzuclover.putmedown.views.TickTockView;
 
@@ -33,6 +32,7 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
     private Handler mHandler;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +45,7 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
     }
 
     private void init(){
-        mPresenter = new TimingPresenter(this, RecordModel.getInstance(this));
+        mPresenter = new TimingPresenter(this);
         mIsSuccess = false;
 
         mStopBtn = (Button) findViewById(R.id.stop_timing_btn);
@@ -81,7 +81,7 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
                 //计时成功时的动作
                 mIsSuccess = true;
                 mHandler.sendEmptyMessage(TIMING_SUCCESS);
-                mPresenter.updateTimingRecord(true, getIntent().getIntExtra("id", 0));
+                mPresenter.updateTimingRecord();
                 mPresenter.saveTimedToday(TimingActivity.this, mTotalTime);
             }
         });
@@ -145,9 +145,14 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
             builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    mPresenter.updateTimingRecord(mIsSuccess, getIntent().getIntExtra("id", 0));
-                    mTickTockView.stop();
-                    finish();
+                    if(TextUtils.isEmpty(getFailComments())){
+                       toastShort("请输入备注");
+                    }else{
+                        mPresenter.updateTimingRecord();
+                        mTickTockView.stop();
+                        mPresenter.shareText();
+                        finish();
+                    }
                 }
             });
             builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -169,6 +174,21 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
             }
         }
         return "";
+    }
+
+    @Override
+    public boolean isSuccess() {
+        return mIsSuccess;
+    }
+
+    @Override
+    public int getRecordId() {
+        return getIntent().getIntExtra("id", 0);
+    }
+
+    @Override
+    public int getTotalTime() {
+        return mTotalTime;
     }
 
     @Override

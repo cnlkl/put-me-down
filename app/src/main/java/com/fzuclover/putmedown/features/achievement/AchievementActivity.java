@@ -15,11 +15,23 @@ import com.fzuclover.putmedown.utils.LogUtil;
 import java.util.List;
 
 public class AchievementActivity extends BaseActivity implements AchievementContract.View {
+    /*
+        todo 在此处声明私有变量
+        如：TextView mTotalTime;
+     */
+
+    //调用presenter的方法获取数据
+    private AchievementContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_achievement);
+        init();
+    }
 
+    private void init(){
+        //todo 在此处做一些变量的初始化工作
+        mPresenter = new AchievementPresenter(this);
     }
 }
