@@ -30,7 +30,7 @@
 
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/edittext1"
+            android:id="@+id/account_edt"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -53,7 +53,7 @@
 
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/edittext2"
+            android:id="@+id/password_edt"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
