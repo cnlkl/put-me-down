@@ -1,13 +1,248 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_setting"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.fzuclover.putmedown.features.setting.SettingActivity">
+    tools:context="com.fzuclover.putmedown.features.setting.SettingActivity"
+    android:background="#efefef"
+    android:orientation="vertical">
 
-</RelativeLayout>
+    <TextView
+        android:text="朋友圈设置"
+        android:textSize="10dp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    android:layout_marginTop="5dp"
+        >
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="#bebebe"
+            />
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#ffffff"
+            android:layout_marginTop="5dp"
+            >
+            <TextView
+                android:text="自动发送朋友圈"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                />
+
+            <Switch
+                android:id="@+id/autoshare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                />
+
+            </RelativeLayout>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="#bebebe"
+             />
+
+        <TextView
+            android:text="发送朋友圈的内容"
+            android:textColor="#000000"
+            android:textSize="15dp"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/background_setting"
+            android:maxLines="3"
+            android:maxLength="50"
+            android:hint="请输入内容..."
+            android:textSize="15dp"
+            android:gravity="clip_vertical"
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
+            />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="#bebebe"
+            />
+
+        </LinearLayout>
+
+    <TextView
+        android:text="通知方式"
+        android:layout_marginTop="30dp"
+        android:textSize="10dp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/textView" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#ffffff"
+        android:layout_marginTop="5dp"
+        >
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="#bebebe"
+            />
+
+        <TextView
+            android:text="计时完成的通知方式"
+            android:textColor="#000000"
+            android:textSize="15dp"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="#bebebe"
+            />
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#ffffff"
+            android:layout_marginTop="5dp"
+            >
+
+            <Switch
+                android:id="@+id/notify_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                />
+
+            <TextView
+                android:text="不通知"
+                android:layout_toLeftOf="@id/notify_no"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:layout_marginRight="5dp"
+                />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="#bebebe"
+            />
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#ffffff"
+            android:layout_marginTop="5dp"
+            >
+
+            <Switch
+                android:id="@+id/notify_shake"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                />
+
+            <TextView
+                android:text="振动"
+                android:layout_toLeftOf="@id/notify_shake"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:layout_marginRight="5dp"
+                />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="#bebebe"
+            />
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#ffffff"
+            android:layout_marginTop="5dp"
+            >
+
+            <Switch
+                android:id="@+id/notify_led"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                />
+
+            <TextView
+                android:text="Led灯"
+                android:layout_toLeftOf="@id/notify_led"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:layout_marginRight="5dp"
+                />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="#bebebe"
+            />
+
+    </LinearLayout>
+</LinearLayout>
