@@ -21,6 +21,7 @@ import com.fzuclover.putmedown.features.login.LoginActivity;
 import com.fzuclover.putmedown.features.setting.SettingActivity;
 import com.fzuclover.putmedown.features.timing.TimingActivity;
 import com.fzuclover.putmedown.features.timingrecord.TimingRecordActivity;
+import com.fzuclover.putmedown.utils.LogUtil;
 import com.fzuclover.putmedown.views.NumPickerView;
 import com.fzuclover.putmedown.views.WaveProgressView;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -64,7 +65,10 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
         mWaveProgressView.setCurrent(mTimedToday, mTimedToday + "min/" + mTargetTime + "min");
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
     private void init() {
 
