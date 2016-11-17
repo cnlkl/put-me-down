@@ -20,9 +20,7 @@ import java.util.Map;
 
 public class AchievementModel implements IAchievementModel{
     private static AchievementModel mAchievementModel;
-
     private AchievementDBHelper mDbHelper;
-
     private AchievementModel(Context context){
         if(context != null){
             mDbHelper = new AchievementDBHelper(context, "achievement.db", null, 1);
