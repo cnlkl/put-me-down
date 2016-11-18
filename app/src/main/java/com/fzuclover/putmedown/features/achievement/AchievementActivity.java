@@ -14,6 +14,7 @@ import com.fzuclover.putmedown.model.bean.DayAchievement;
 import com.fzuclover.putmedown.utils.LogUtil;
 import com.fzuclover.putmedown.views.Charts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AchievementActivity extends BaseActivity implements AchievementContract.View {
@@ -30,26 +31,36 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
 
     //调用presenter的方法获取数据
     private AchievementContract.Presenter mPresenter;
+    private Achievement mtotalAchievement;
+    private List<DayAchievement>  mdayAchievement;
+    private TextView mTotalTime;
+    private TextView mTotalTravel;
+    private TextView mAchievePlace;
+    private Charts mDayAchivementChart;
+
     //存放图表显示的数据
+
     private int[] achieveData={400,400,400,400,400,400,400,400,400,400};
-    private int[] targetData={100,400,500,300,200,300,500,200,100,200};
-    @Override
+    private int[] targetData={180,180,180,180,180,180,180,180,180,180};
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_achievement);
-//        init();
-        Charts chart=(Charts)findViewById(R.id.charts);
+         init();
+
         //传送数据接口
-        chart.setData(achieveData);
-        chart.setTargetData(targetData);
+        toShow();
     }
 
     private void init(){
+
         //todo 在此处做一些变量的初始化工作
         mPresenter = new AchievementPresenter(this);
+
         mTotalTimeTv = (TextView) findViewById(R.id.activity_totaltime);
-        mTotalSuccessTv = (TextView) findViewById(R.id.activity_totalsuccess);
-        mTotalFailedTv = (TextView) findViewById(R.id.activity_totalfailed);
+        mTotalSuccessTv = (TextView) findViewById(R.id.activity_totaltravel);
+        mTotalFailedTv = (TextView) findViewById(R.id.activity_toplace);
 
         Achievement achievement = mPresenter.getAchievement();
         mTotalTimeTv.setText(String.valueOf(achievement.getTotalTime()));
@@ -71,6 +82,27 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
             j++;
         }
 
+        mDayAchivementChart=(Charts)findViewById(R.id.activity_DayAchievement_charts);
+        mTotalTravel=(TextView)findViewById(R.id.activity_totaltravel);
+        mTotalTime=(TextView)findViewById(R.id.activity_totaltime);
+        mAchievePlace=(TextView)findViewById(R.id.activity_toplace);
+        mdayAchievement=mPresenter.getDayAchievements();
+        mtotalAchievement=mPresenter.getAchievement();
+
+
+
+    }
+
+    @Override
+    public void toShow() {
+
+        int i;
+
+
+        mDayAchivementChart.setData(achieveData);
+        mDayAchivementChart.setTargetData(targetData);
+
+        mTotalTime.setText(mtotalAchievement.getTotalTime()+"");
 
     }
 }
