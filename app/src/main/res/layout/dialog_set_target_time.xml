@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -8,9 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="1"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:inputType="number"
-        android:hint="输入目标分钟(如:180)"
+        android:hint="输入目标分钟(如:150)"
         />
 
 </LinearLayout>
