@@ -90,16 +90,10 @@
             android:id="@+id/forget_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
             android:text="忘记密码"
-            android:textColor="#055db5"
-            android:layout_marginLeft="100dp"
-            android:layout_marginBottom="5dp"
-            />
-        <View
-            android:layout_width="1dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="165dp"
-            android:background="@color/gray"
+            android:textColor="@color/gray"
             />
 
         <TextView
@@ -108,9 +102,8 @@
             android:layout_height="wrap_content"
             android:text="注册"
             android:layout_alignParentRight="true"
-            android:textColor="#055db5"
-            android:layout_marginRight="120dp"
-            android:layout_marginBottom="5dp"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/gray"
             />
 
 
