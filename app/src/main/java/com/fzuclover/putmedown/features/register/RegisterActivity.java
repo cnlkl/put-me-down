@@ -48,8 +48,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         mGetCodeBtn = (Button) findViewById(R.id.register_get_checknum);
         mGetCodeBtn.setOnClickListener(this);
-        mGetCodeBtn = (Button) findViewById(R.id.register_submit);
-        mGetCodeBtn.setOnClickListener(this);
+        mSubmitBtn = (Button) findViewById(R.id.register_submit);
+        mSubmitBtn.setOnClickListener(this);
 
 
     }

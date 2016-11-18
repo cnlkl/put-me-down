@@ -2,17 +2,17 @@ package com.fzuclover.putmedown.model;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.preference.PreferenceManager;
 
 import com.fzuclover.putmedown.model.bean.Achievement;
 import com.fzuclover.putmedown.model.bean.DayAchievement;
-import com.fzuclover.putmedown.model.db.AchievementDBHelper;
+import com.fzuclover.putmedown.model.db.DBHelper;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by lkl on 2016/11/4.
@@ -21,11 +21,12 @@ import java.util.Map;
 public class AchievementModel implements IAchievementModel{
     private static AchievementModel mAchievementModel;
 
-    private AchievementDBHelper mDbHelper;
+    private DBHelper mDbHelper;
 
     private AchievementModel(Context context){
         if(context != null){
-            mDbHelper = new AchievementDBHelper(context, "achievement.db", null, 1);
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            mDbHelper = new DBHelper(context, sharedPreferences.getString("username", "root") + ".db", null, 1);
         }
     }
     public static IAchievementModel getAchieveMentModelInstance(Context context) {
@@ -91,5 +92,9 @@ public class AchievementModel implements IAchievementModel{
 
         db.insert("achievement", null, values);
 
+    }
+    @Override
+    public void close(){
+        mAchievementModel = null;
     }
 }

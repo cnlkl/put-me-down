@@ -31,8 +31,10 @@ public class LoginActivity extends BaseActivity implements LoginContract.View,Vi
     }
 
     private void init(){
-
         mPresenter = new LoginPresenter(this);
+        if(mPresenter.getLoginStatu()){
+            toTotalTimingTodayActivity();
+        }
 
         mLogin = (CircleButton) findViewById(R.id.login);
         mLogin.setOnClickListener(this);

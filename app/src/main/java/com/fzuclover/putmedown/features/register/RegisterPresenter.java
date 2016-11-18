@@ -3,6 +3,7 @@ package com.fzuclover.putmedown.features.register;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -58,11 +59,23 @@ public class RegisterPresenter implements RegisterContract.Presenter {
                         //返回支持发送验证码的国家列表
                     }
                 }else{
+                    final Throwable throwable = (Throwable) data;
+                    throwable.printStackTrace();
                     ((Throwable)data).printStackTrace();
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText((Context) mView,"验证码错误",Toast.LENGTH_SHORT).show();
+                            JSONObject object = null;
+                            try {
+                                object = new JSONObject(throwable.getMessage());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            String des = object.optString("detail");//错误描述
+                            int status = object.optInt("status");//错误代码
+                            if (status > 0 && !TextUtils.isEmpty(des)) {
+                                Toast.makeText((Context) mView, des, Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
                 }

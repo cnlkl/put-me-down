@@ -3,6 +3,7 @@ package com.fzuclover.putmedown.features.forgotpassword;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.fzuclover.putmedown.networks.OkHttpManager;
@@ -56,11 +57,28 @@ public class ForgotPasswordPresenter implements ForgotPasswordContract.Presenter
                         }
                     }
                 }else{
+                    final Throwable throwable = (Throwable) data;
+                    throwable.printStackTrace();
                     ((Throwable)data).printStackTrace();
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText((Context) mView,"验证码错误",Toast.LENGTH_SHORT).show();
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    JSONObject object = null;
+                                    try {
+                                        object = new JSONObject(throwable.getMessage());
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    String des = object.optString("detail");//错误描述
+                                    int status = object.optInt("status");//错误代码
+                                    if (status > 0 && !TextUtils.isEmpty(des)) {
+                                        Toast.makeText((Context) mView, des, Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                         }
                     });
                 }

@@ -1,13 +1,15 @@
 package com.fzuclover.putmedown.features.timing;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +22,9 @@ import com.fzuclover.putmedown.utils.LogUtil;
 import com.fzuclover.putmedown.views.TickTockView;
 
 import java.util.Calendar;
+import java.util.List;
+
+import pub.devrel.easypermissions.EasyPermissions;
 
 
 public class TimingActivity extends BaseActivity implements TimingContract.View , View.OnClickListener{
@@ -53,6 +58,7 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
     }
 
     private void init(){
+
         mPresenter = new TimingPresenter(this);
         mIsSuccess = false;
 
@@ -100,6 +106,7 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
                 switch (msg.what){
                     case TIMING_SUCCESS:
                         mStopBtn.setText("SUCCESS");
+                        mPresenter.sendNotify();
                         break;
                     default:
                         break;

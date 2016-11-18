@@ -36,37 +36,41 @@ public class TotalTimingTodayPresenter implements TotalTimingTodayContract.Prese
 
     @Override
     public void saveTargetTime(Context context, int targetTime) {
-        SharedPreferences.Editor editor= PreferenceManager.getDefaultSharedPreferences(context).edit();
-        editor.putInt("target_time",targetTime);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor= sharedPreferences.edit();
+        String username = sharedPreferences.getString("username", "");
+        editor.putInt(username + "target_time",targetTime);
         editor.commit();
     }
 
     @Override
     public int getTargetTime(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPreferences.getInt("target_time",180);
+        String username = sharedPreferences.getString("username", "root");
+        return sharedPreferences.getInt(username + "target_time",180);
     }
 
     @Override
     public int getTimedToday(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String date = sharedPreferences.getString("date", "");
+        String username = sharedPreferences.getString("username","root");
+        String date = sharedPreferences.getString(username + "date", "");
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String dateNow = format.format(new Date());
         if(date.equals(dateNow)){
-            return sharedPreferences.getInt("timed_today", 0);
+            return sharedPreferences.getInt(username + "timed_today", 0);
         }else{
             //保存前一天的数据到数据库
-            int successTimesToday = sharedPreferences.getInt("success_times_today", 0);
-            int failedTImesToday = sharedPreferences.getInt("failed_times_today", 0);
-            int timedToday = sharedPreferences.getInt("timed_today", 0);
+            int successTimesToday = sharedPreferences.getInt(username + "success_times_today", 0);
+            int failedTImesToday = sharedPreferences.getInt(username + "failed_times_today", 0);
+            int timedToday = sharedPreferences.getInt(username + "timed_today", 0);
             mAchievementModel.saveAchievementEveryDay(date, timedToday, successTimesToday, failedTImesToday);
             //保存新一天的数据
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("date", dateNow);
-            editor.putInt("timed_today", 0);
-            editor.putInt("success_times_today",0);
-            editor.putInt("failed_times_today", 0);
+            editor.putString(username + "date", dateNow);
+            editor.putInt(username + "timed_today", 0);
+            editor.putInt(username + "success_times_today",0);
+            editor.putInt(username + "failed_times_today", 0);
             editor.commit();
             return 0;
         }
@@ -77,6 +81,17 @@ public class TotalTimingTodayPresenter implements TotalTimingTodayContract.Prese
         int id = 0;
         id = mRecordModel.saveTimingRecord(totalTime, comments);
         return id;
+    }
+
+    @Override
+    public void setLoginStatu(boolean b) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences((Context)mView);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("is_login", b);
+        editor.putString("username", "");
+        editor.commit();
+        RecordModel.getInstance((Context)mView).close();
+        AchievementModel.getAchieveMentModelInstance((Context)mView).close();
     }
 
 

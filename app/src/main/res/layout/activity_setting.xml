@@ -4,145 +4,88 @@
     android:id="@+id/activity_setting"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#efefef"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.fzuclover.putmedown.features.setting.SettingActivity"
-    android:background="#efefef"
-    android:orientation="vertical">
+    tools:context="com.fzuclover.putmedown.features.setting.SettingActivity">
 
     <TextView
-        android:text="朋友圈设置"
-        android:textSize="10dp"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        />
+        android:text="朋友圈设置"
+        android:textSize="10dp" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="#ffffff"
-    android:layout_marginTop="5dp"
-        >
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="0.5dp"
-            android:background="#bebebe"
-            />
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical">
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#ffffff"
             android:layout_marginTop="5dp"
-            >
+            android:background="#ffffff"
+            android:orientation="vertical">
+
             <TextView
-                android:text="自动发送朋友圈"
-                android:textColor="#000000"
-                android:textSize="15dp"
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="5dp"
-                />
+                android:text="自动发送朋友圈"
+                android:textColor="#000000"
+                android:textSize="15dp" />
 
             <Switch
-                android:id="@+id/autoshare"
+                android:id="@+id/auto_share_swc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
-                />
+                android:checked="true" />
 
-            </RelativeLayout>
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="0.5dp"
-            android:background="#bebebe"
-             />
-
-        <TextView
-            android:text="发送朋友圈的内容"
-            android:textColor="#000000"
-            android:textSize="15dp"
-            android:layout_width="fill_parent"
-            android:layout_height="40dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="5dp"
-            />
+        </RelativeLayout>
 
         <EditText
+            android:id="@+id/wx_content_edt"
             android:layout_width="fill_parent"
             android:layout_height="100dp"
             android:background="@drawable/background_setting"
-            android:maxLines="3"
-            android:maxLength="50"
-            android:hint="请输入内容..."
-            android:textSize="15dp"
             android:gravity="clip_vertical"
+            android:hint="发送的朋友圈内容"
+            android:maxLength="50"
+            android:maxLines="3"
             android:paddingLeft="5dp"
             android:paddingTop="5dp"
-            />
+            android:textSize="15dp" />
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="0.5dp"
-            android:background="#bebebe"
-            />
 
-        </LinearLayout>
+    </LinearLayout>
 
     <TextView
-        android:text="通知方式"
-        android:layout_marginTop="30dp"
-        android:textSize="10dp"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:id="@+id/textView" />
+        android:layout_marginTop="10dp"
+        android:text="通知设置"
+        android:textSize="10dp" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="#ffffff"
         android:layout_marginTop="5dp"
-        >
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="0.5dp"
-            android:background="#bebebe"
-            />
-
-        <TextView
-            android:text="计时完成的通知方式"
-            android:textColor="#000000"
-            android:textSize="15dp"
-            android:layout_width="fill_parent"
-            android:layout_height="40dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="5dp"
-            />
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="0.5dp"
-            android:background="#bebebe"
-            />
+        android:orientation="vertical">
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:background="#ffffff"
-            android:layout_marginTop="5dp"
-            >
+            android:orientation="vertical">
 
             <Switch
                 android:id="@+id/notify_no"
@@ -151,98 +94,88 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
-                />
+                android:checked="true" />
 
             <TextView
-                android:text="不通知"
-                android:layout_toLeftOf="@id/notify_no"
-                android:textColor="#000000"
-                android:textSize="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:gravity="center_vertical"
+                android:layout_alignParentLeft="true"
                 android:layout_marginRight="5dp"
-                />
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:text="是否通知"
+                android:textColor="#000000"
+                android:textSize="15dp" />
 
         </RelativeLayout>
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="0.5dp"
-            android:background="#bebebe"
-            />
-
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:id="@+id/notify_type_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#ffffff"
-            android:layout_marginTop="5dp"
-            >
+            android:orientation="vertical">
 
-            <Switch
-                android:id="@+id/notify_shake"
-                android:layout_width="wrap_content"
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                />
+                android:layout_marginTop="5dp"
+                android:background="#ffffff"
+                android:orientation="vertical">
 
-            <TextView
-                android:text="振动"
-                android:layout_toLeftOf="@id/notify_shake"
-                android:textColor="#000000"
-                android:textSize="15dp"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:gravity="center_vertical"
-                android:layout_marginRight="5dp"
-                />
+                <Switch
+                    android:id="@+id/notify_shake"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:checked="true" />
 
-        </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="5dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="5dp"
+                    android:text="振动"
+                    android:textColor="#000000"
+                    android:textSize="15dp" />
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="0.5dp"
-            android:background="#bebebe"
-            />
+            </RelativeLayout>
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#ffffff"
-            android:layout_marginTop="5dp"
-            >
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
 
-            <Switch
-                android:id="@+id/notify_led"
-                android:layout_width="wrap_content"
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                />
+                android:background="#ffffff"
+                android:orientation="vertical">
 
-            <TextView
-                android:text="Led灯"
-                android:layout_toLeftOf="@id/notify_led"
-                android:textColor="#000000"
-                android:textSize="15dp"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:gravity="center_vertical"
-                android:layout_marginRight="5dp"
-                />
+                <Switch
+                    android:id="@+id/notify_led"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:checked="true" />
 
-        </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="5dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="5dp"
+                    android:text="Led灯"
+                    android:textColor="#000000"
+                    android:textSize="15dp" />
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="0.5dp"
-            android:background="#bebebe"
-            />
+            </RelativeLayout>
+        </LinearLayout>
 
     </LinearLayout>
 </LinearLayout>

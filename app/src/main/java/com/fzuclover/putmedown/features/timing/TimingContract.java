@@ -26,5 +26,7 @@ public interface TimingContract {
         void updateTimingRecord();
         //微信分享接口
         void shareText();
+        //通知
+        void sendNotify();
     }
 }

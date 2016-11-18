@@ -26,4 +26,6 @@ public interface IAchievementModel {
      * @param failedTimes 每日总失败次数
      */
     void saveAchievementEveryDay(String date, int totalTime, int successTimes, int failedTimes);
+
+    void close();
 }

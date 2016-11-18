@@ -11,6 +11,15 @@ public interface SettingContract {
     }
 
     interface Presenter {
-        
+        void setIsSendWxMsg(boolean b);
+        boolean getIsSendWxMsg();
+        void setWxMsgContent(String content);
+        String getWxMsgContent();
+        void setIsNotify(boolean b);
+        boolean getIsNotify();
+        void setIsShock(boolean b);
+        boolean getIsShock();
+        void setIsLight(boolean b);
+        boolean getIsLight();
     }
 }

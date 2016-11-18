@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">PutMeDown</string>
-    <string name="start">start</string>
+    <string name="start">开始</string>
     <string name="logout">退出</string>
     <string name="set">设置</string>
     <string name="my_achievement">我的成就</string>
     <string name="history">历史记录</string>
-    <string name="stop">stop</string>
+    <string name="stop">终止</string>
     <string name="phonenum">手机号</string>
     <string name="checknum">验证码</string>
     <string name="newsecret">新密码</string>

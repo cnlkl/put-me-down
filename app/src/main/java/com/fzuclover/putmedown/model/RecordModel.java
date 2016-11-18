@@ -2,12 +2,14 @@ package com.fzuclover.putmedown.model;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import com.fzuclover.putmedown.model.bean.Record;
-import com.fzuclover.putmedown.model.db.TimingRecordDBHelper;
+import com.fzuclover.putmedown.model.db.DBHelper;
 import com.fzuclover.putmedown.utils.LogUtil;
 
 import java.text.SimpleDateFormat;
@@ -23,11 +25,13 @@ public class RecordModel implements IRecordModel{
 
     private static RecordModel mRecordModel;
 
-    private TimingRecordDBHelper mDbHelper;
+    private DBHelper mDbHelper;
 
     private RecordModel(Context context){
         if(context != null){
-            mDbHelper = new TimingRecordDBHelper(context, "timing_record.db", null, 1);
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            LogUtil.d("db_name",sharedPreferences.getString("username", "root")+".db");
+            mDbHelper = new DBHelper(context, sharedPreferences.getString("username", "root") + ".db", null, 1);
         }
     }
 
@@ -112,7 +116,10 @@ public class RecordModel implements IRecordModel{
                 records.add(record);
             } while (cursor.moveToNext());
         }
-
         return records;
+    }
+
+    public void close(){
+        mRecordModel = null;
     }
 }

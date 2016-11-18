@@ -23,6 +23,7 @@ public class TotalTimingTodayContract {
         int getTargetTime(Context context);
         int getTimedToday(Context context);
         int saveTimingRecord(Context context, int totalTime, String comments);
+        void setLoginStatu(boolean b);
     }
 
 }

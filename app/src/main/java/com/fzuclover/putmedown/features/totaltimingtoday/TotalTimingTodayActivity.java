@@ -4,15 +4,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fzuclover.putmedown.BaseActivity;
 import com.fzuclover.putmedown.R;
@@ -47,6 +51,10 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
     private int mTimedToday;
     //目标时间(分钟)
     private int mTargetTime;
+    //按两次退出app标志
+    private boolean mExitTag;
+    private Handler mHandler;
+    private final int MSG_EXIT = 0;
 
 
     @Override
@@ -70,6 +78,19 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
     }
 
     private void init() {
+
+        mExitTag = false;
+
+        mHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case MSG_EXIT:
+                        mExitTag = false;
+                        break;
+                }
+            }
+        };
 
         mPresenter = new TotalTimingTodayPresenter(this);
 
@@ -114,6 +135,7 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
                 toSettingActivity();
                 break;
             case R.id.logout_btn:
+                mPresenter.setLoginStatu(false);
                 toLoginActivity();
                 this.finish();
                 break;
@@ -246,4 +268,17 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
         builder.show();
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            if (!mExitTag) {
+                mExitTag = true;
+               toastShort("再按一次退出程序");
+                mHandler.sendEmptyMessageDelayed(MSG_EXIT, 2000);
+            } else {
+                this.finish();
+            }
+        }
+        return false;
+    }
 }
