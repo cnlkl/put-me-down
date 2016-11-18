@@ -21,12 +21,11 @@ public class Charts extends View {
 
     private int mCavansWidth=300;
     private int mCavansHeight=300;
-    private Paint mLinePaint;
     private int xLength;
     private int yLength;
     private int xScale;
     private int yScale;
-    private int xCount=7;
+    private int xCount=10;
     private int yCount=6;
     private int oX;
     private int oY;
@@ -35,16 +34,21 @@ public class Charts extends View {
     private int ySpluse=150;
     private  int PointColor=Color.GREEN;
     private  int LineColor=Color.BLUE;
-    private String[] xText={"一","二","三","四","五","六","日"};
+    private String[] xText={"1","2","3","4","5","6","7","8","9","10"};
     private String[] yText={"0","100","200","300","400","500","600"};
+    private int[] targetData;
+    private int[] data;
+    private Paint coordinatePaint;
+    private Paint textPaint;
+    private Paint textPaint2;
+    private Paint mLinePaint;
+    private String ChartName="距今I天当天目标与实际达成时间对比图";
+    private String xName="/I";
+    private String yName="/min";
+    private String line_1Name="达成时间";
+    private String line_2Name="目标时间";
 
 
-
-    private int[] targetData={500,500,500,500,500,500,500};
-
-
-
-    private int[] data={100,200,100,500,400,100,50};
     public Charts(Context context) {
         super(context);
 
@@ -83,30 +87,26 @@ public class Charts extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         inits();
-        mLinePaint=new Paint();
-        mLinePaint.setColor(this.LineColor);
-        mLinePaint.setAntiAlias(true);
-        mLinePaint.setStrokeWidth(5);
         //绘制坐标轴
-        canvas.drawLine(oX,oY,oX+xLength+80,oY,mLinePaint);
-        canvas.drawLine(oX,oY-yLength-80,oX,oY,mLinePaint);
+        canvas.drawLine(oX,oY,oX+xLength+80,oY,coordinatePaint);
+        canvas.drawLine(oX,oY-yLength-80,oX,oY,coordinatePaint);
         //绘制刻度
-        Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        textPaint.setColor(Color.BLACK);
-        textPaint.setTextSize(48);
         for(int i=0;i<this.xCount;i++){
-            canvas.drawLine(oX+(i+1)*xScale,oY,oX+(i+1)*xScale,oY-15,mLinePaint);
+            canvas.drawLine(oX+(i+1)*xScale,oY,oX+(i+1)*xScale,oY-15,coordinatePaint);
             canvas.drawText(xText[i],oX+(i+1)*xScale,oY+50,textPaint);
         }
-        canvas.drawLine(oX+(6+1)*xScale+80,oY,oX+(6+1)*xScale+40,oY-35,mLinePaint);
-        canvas.drawLine(oX+(6+1)*xScale+80,oY,oX+(6+1)*xScale+40,oY+35,mLinePaint);
+
+        canvas.drawText(xName,oX+xCount*xScale+80,oY+50,textPaint);
+        canvas.drawLine(oX+(9+1)*xScale+80,oY,oX+(9+1)*xScale+40,oY-35,coordinatePaint);
+        canvas.drawLine(oX+(9+1)*xScale+80,oY,oX+(9+1)*xScale+40,oY+35,coordinatePaint);
         for(int i=0;i<=this.yCount;i++){
-            canvas.drawLine(oX,oY-i*yScale,oX+15,oY-i*yScale,mLinePaint);
+            canvas.drawLine(oX,oY-i*yScale,oX+xLength+60,oY-i*yScale,coordinatePaint);
             canvas.drawText(yText[i],oX-90,oY-i*yScale,textPaint);
         }
-        canvas.drawText("min",oX-90,oY-6*yScale-80,textPaint);
-        canvas.drawLine(oX,oY-6*yScale-80,oX+35,oY-6*yScale-40,mLinePaint);
-        canvas.drawLine(oX,oY-6*yScale-80,oX-35,oY-6*yScale-40,mLinePaint);
+        canvas.drawText(yName,oX-90,oY-6*yScale-80,textPaint);
+        canvas.drawLine(oX,oY-6*yScale-80,oX+35,oY-6*yScale-40,coordinatePaint);
+        canvas.drawLine(oX,oY-6*yScale-80,oX-35,oY-6*yScale-40,coordinatePaint);
+        canvas.drawText(ChartName,oX+0*xScale,oY+120,textPaint);
         drawline(canvas);
     }
 
@@ -114,54 +114,44 @@ public class Charts extends View {
    {
        Path path=new Path();
        Paint pointPaint=new Paint();
-       Paint linePaint=new Paint();
        Paint targetPaint=new Paint();
        Path target=new Path();
-       mLinePaint.setTextSize(48);
        //折点画笔
-       pointPaint.setColor(Color.GREEN);
+       pointPaint.setColor(Color.rgb(204,204,0));
        pointPaint.setStyle(Paint.Style.FILL);
        pointPaint.setStrokeWidth(20);
        pointPaint.setAntiAlias(true);
-       //折线画笔
-       linePaint.setColor(Color.BLUE);
-       linePaint.setStyle(Paint.Style.STROKE);
-       linePaint.setAntiAlias(true);
        //折线图标
        canvas.drawPoint(520+100,120,pointPaint);
-       canvas.drawText("-- 达成时间",600+100,130,mLinePaint);
+       canvas.drawText("--"+line_1Name,600+100,130,textPaint);
        path.moveTo(oX+xScale,(int)(oY-data[0]*0.01*yScale));
        canvas.drawPoint(oX+xScale,(int)(oY-data[0]*0.01*yScale),pointPaint);
-       canvas.drawText(data[0]+"",oX+(0+1)*xScale,(int)(oY-data[0]*0.01*yScale),mLinePaint);
+       canvas.drawText(data[0]+"",oX+(0+1)*xScale,(int)(oY-data[0]*0.01*yScale-10),textPaint2);
 
        for(int i=1;i<xCount;i++){
            canvas.drawPoint(oX+(i+1)*xScale,(int)(oY-data[i]*0.01*yScale),pointPaint);
-           canvas.drawText(data[i]+"",oX+(i+1)*xScale,(int)(oY-data[i]*0.01*yScale),mLinePaint);
+           canvas.drawText(data[i]+"",oX+(i+1)*xScale,(int)(oY-data[i]*0.01*yScale-10),textPaint2);
            path.lineTo(oX+(i+1)*xScale,(int)(oY-data[i]*0.01*yScale));
-           canvas.drawPath(path,linePaint);
+           canvas.drawPath(path,mLinePaint);
        }
        //目标折点画笔
-       targetPaint.setColor(Color.RED);
+       targetPaint.setColor(Color.rgb(255,153,102));
        targetPaint.setStyle(Paint.Style.FILL);
        targetPaint.setStrokeWidth(20);
        targetPaint.setAntiAlias(true);
-       //目标折线画笔
-       linePaint.setColor(Color.BLUE);
-       linePaint.setStyle(Paint.Style.STROKE);
-       linePaint.setAntiAlias(true);
        // 折线图标
        canvas.drawPoint(520+100,40,targetPaint);
-       canvas.drawText("-- 目标时间",600+100,50,mLinePaint);
+       canvas.drawText("--"+line_2Name,600+100,50,textPaint);
 
        target.moveTo(oX+xScale,(int)(oY-targetData[0]*0.01*yScale));
        canvas.drawPoint(oX+xScale,(int)(oY-targetData[0]*0.01*yScale),targetPaint);
-       canvas.drawText(targetData[0]+"",oX+(0+1)*xScale,(int)(oY-targetData[0]*0.01*yScale),mLinePaint);
+       canvas.drawText(targetData[0]+"",oX+(0+1)*xScale,(int)(oY-targetData[0]*0.01*yScale-10),textPaint2);
        mLinePaint.setTextSize(48);
        for(int i=1;i<xCount;i++){
            canvas.drawPoint(oX+(i+1)*xScale,(int)(oY-targetData[i]*0.01*yScale),targetPaint);
-           canvas.drawText(targetData[i]+"",oX+(i+1)*xScale,(int)(oY-targetData[i]*0.01*yScale),mLinePaint);
+           canvas.drawText(targetData[i]+"",oX+(i+1)*xScale,(int)(oY-targetData[i]*0.01*yScale-10),textPaint2);
            target.lineTo(oX+(i+1)*xScale,(int)(oY-targetData[i]*0.01*yScale));
-           canvas.drawPath(target,linePaint);
+           canvas.drawPath(target,mLinePaint);
        }
 
    }
@@ -176,6 +166,22 @@ public class Charts extends View {
         //刻度间距
         this.xScale=this.xLength/this.xCount;
         this.yScale=this.yLength/this.yCount;
+        coordinatePaint=new Paint();
+        coordinatePaint.setColor(Color.rgb(204,204,204));
+        coordinatePaint.setAntiAlias(true);
+        coordinatePaint.setStyle(Paint.Style.STROKE);
+        coordinatePaint.setStrokeWidth(5);
+        mLinePaint=new Paint();
+        mLinePaint.setColor(Color.rgb(102,51,153));
+        mLinePaint.setAntiAlias(true);
+        mLinePaint.setStrokeWidth(5);
+        mLinePaint.setStyle(Paint.Style.STROKE);
+        textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        textPaint.setColor(Color.BLACK);
+        textPaint.setTextSize(48);
+        textPaint2 = new Paint(Paint.ANTI_ALIAS_FLAG);
+        textPaint2.setColor(Color.BLACK);
+        textPaint2.setTextSize(30);
 
     }
 }

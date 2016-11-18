@@ -23,8 +23,8 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
     //调用presenter的方法获取数据
     private AchievementContract.Presenter mPresenter;
     //存放图表显示的数据
-    private int[] achieveData={200,300,100,100,100,100,100};
-    private int[] targetData={400,400,400,400,400,400,400};
+    private int[] achieveData={200,300,100,100,100,100,100,500,600,100};
+    private int[] targetData={400,400,400,400,400,400,400,500,300,200};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
