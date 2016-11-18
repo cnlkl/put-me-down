@@ -23,10 +23,10 @@
 
         <Button
             android:id="@+id/start_timing_btn"
-            android:layout_width="143dp"
-            android:layout_height="50dp"
+            android:layout_width="140dp"
+            android:layout_height="48dp"
             android:layout_gravity="center"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="90dp"
             android:background="@drawable/corner_blue"
             android:textColor="@color/white"
             android:textSize="21sp"
@@ -35,15 +35,15 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:layout_width="240dp"
+        android:layout_width="230dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/drawer_background">
 
         <ImageView
             android:id="@+id/current_place_img"
-            android:layout_width="240dp"
-            android:layout_height="170dp"
+            android:layout_width="230dp"
+            android:layout_height="160dp"
             android:src="@mipmap/pmd"
             />
 
@@ -66,8 +66,8 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:src="@mipmap/achievement"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="40dp"/>
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="38dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -87,11 +87,11 @@
                 android:padding="5dp">
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:src="@mipmap/history"
-                    android:layout_marginRight="40dp"
-                    android:layout_marginLeft="25dp"/>
+                    android:layout_marginRight="38dp"
+                    android:layout_marginLeft="22dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -113,7 +113,7 @@
                 android:id="@+id/set_btn"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:background="@color/drawer_background"
                 android:text="@string/set"
                 android:textSize="18sp"
@@ -121,7 +121,7 @@
                 android:textColor="@color/gray"/>
             <View
                 android:layout_width="1dp"
-                android:layout_height="30dp"
+                android:layout_height="28dp"
                 android:layout_marginTop="11dp"
                 android:background="@color/gray"
                 />
@@ -129,10 +129,10 @@
                 android:id="@+id/logout_btn"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:background="@color/drawer_background"
                 android:text="@string/logout"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:gravity="center"
                 android:textColor="@color/gray"
                  />
