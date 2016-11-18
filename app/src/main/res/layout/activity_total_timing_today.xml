@@ -38,13 +38,14 @@
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:clickable="true"
         android:background="@color/drawer_background">
 
         <ImageView
             android:id="@+id/current_place_img"
             android:layout_width="240dp"
-            android:layout_height="170dp"
-            android:src="@mipmap/pmd"
+            android:layout_height="180dp"
+            android:src="@mipmap/white_logo"
             />
 
         <LinearLayout
@@ -58,15 +59,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center"
                 android:layout_marginTop="15dp"
+                android:gravity="center_vertical"
                 android:padding="5dp">
 
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:src="@mipmap/ic_launcher"
-                    android:layout_marginRight="5dp"/>
+                    android:src="@mipmap/achievement"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="40dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -81,15 +83,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:layout_marginTop="15dp"
                 android:padding="5dp">
 
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:src="@mipmap/ic_launcher"
-                    android:layout_marginRight="5dp"/>
+                    android:src="@mipmap/history"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginLeft="25dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -102,23 +105,20 @@
 
         </LinearLayout>
 
-        <at.markushi.ui.CircleButton
-            android:id="@+id/login_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:src="@drawable/right_button"
-            android:layout_marginTop="450dp"
-            android:layout_marginLeft="110dp"
-            app:cb_color="#99CC00"
-            app:cb_pressedRingWidth="80dp"
-            />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal">
+
+            <ImageView
+                android:background="@mipmap/setting"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center_vertical"/>
+
             <TextView
                 android:id="@+id/set_btn"
                 android:layout_width="0dp"
@@ -127,14 +127,24 @@
                 android:background="@color/drawer_background"
                 android:text="@string/set"
                 android:textSize="18sp"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:textColor="@color/gray"/>
             <View
                 android:layout_width="1dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="11dp"
                 android:background="@color/gray"
+                android:layout_marginRight="25dp"
                 />
+
+            <ImageView
+                android:background="@mipmap/exit"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                />
+
             <TextView
                 android:id="@+id/logout_btn"
                 android:layout_width="0dp"
@@ -143,7 +153,7 @@
                 android:background="@color/drawer_background"
                 android:text="@string/logout"
                 android:textSize="18sp"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:textColor="@color/gray"
                  />
         </LinearLayout>

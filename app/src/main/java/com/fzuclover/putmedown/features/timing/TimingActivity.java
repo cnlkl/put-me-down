@@ -1,11 +1,13 @@
 package com.fzuclover.putmedown.features.timing;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +15,7 @@ import android.widget.EditText;
 
 import com.fzuclover.putmedown.BaseActivity;
 import com.fzuclover.putmedown.R;
+import com.fzuclover.putmedown.services.ShowPMDForegroundService;
 import com.fzuclover.putmedown.utils.LogUtil;
 import com.fzuclover.putmedown.views.TickTockView;
 
@@ -32,6 +35,11 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
     private Handler mHandler;
 
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        stopService(new Intent(this, ShowPMDForegroundService.class));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +107,15 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
             }
         };
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Intent intent = new Intent(this, ShowPMDForegroundService.class);
+        intent.putExtra("task_id", getTaskId());
+        intent.putExtra("is_success", mIsSuccess);
+        startService(intent);
     }
 
     @Override

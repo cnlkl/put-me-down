@@ -5,24 +5,40 @@ package com.fzuclover.putmedown.features.register;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+
+import com.fzuclover.putmedown.utils.TimeCountUtil;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.fzuclover.putmedown.BaseActivity;
 import com.fzuclover.putmedown.R;
 
-public class RegisterActivity extends BaseActivity implements RegisterContract.View,View.OnFocusChangeListener{
+
+public class RegisterActivity extends BaseActivity implements View.OnClickListener, RegisterContract.View,View.OnFocusChangeListener{
 
     private MaterialEditText mPhonumEditText;
     private MaterialEditText mSecretEditText;
     private MaterialEditText mCheckSecEditText;
-     private String mPhonenum;
-     private String mSecret;
+    private MaterialEditText mCodeEdt;
+    private Button mGetCodeBtn;
+    private Button mSubmitBtn;
+    private String mPhonenum;
+    private String mSecret;
+    private RegisterContract.Presenter mPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        init();
+    }
+
+    private void init(){
+        mPresenter = new RegisterPresenter(this);
+
         mPhonumEditText=(MaterialEditText)findViewById(R.id.register_phonenum);
         mSecretEditText=(MaterialEditText)findViewById(R.id.register_newsecret);
         mCheckSecEditText=(MaterialEditText)findViewById(R.id.register_checksecret);
+        mCodeEdt = (MaterialEditText) findViewById(R.id.register_checknum);
         mPhonumEditText.setOnFocusChangeListener(this);
         mPhonumEditText.setTag(1);
         mSecretEditText.setOnFocusChangeListener(this);
@@ -30,6 +46,18 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
         mCheckSecEditText.setOnFocusChangeListener(this);
         mCheckSecEditText.setTag(3);
 
+        mGetCodeBtn = (Button) findViewById(R.id.register_get_checknum);
+        mGetCodeBtn.setOnClickListener(this);
+        mGetCodeBtn = (Button) findViewById(R.id.register_submit);
+        mGetCodeBtn.setOnClickListener(this);
+
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+       mPresenter.unRegisterHandler();
     }
 
     @Override
@@ -61,4 +89,58 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
                   break;
           }
     }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.register_get_checknum:
+                mPresenter.getCode(mPhonumEditText.getText().toString());
+                break;
+            case R.id.register_submit:
+                mPresenter.submit(mPhonumEditText.getText().toString(), mCodeEdt.getText().toString());
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void toLoginActivity() {
+      finish();
+    }
+
+    @Override
+    public String getPhone() {
+        return mPhonumEditText.getText().toString();
+    }
+
+    @Override
+    public String getPassword() {
+        return mSecretEditText.getText().toString();
+    }
+
+    @Override
+    public String getConfirmPassword() {
+        return mCheckSecEditText.getText().toString();
+    }
+
+    @Override
+    public void setGetCodeBtnTimeCount() {
+        TimeCountUtil timer = new TimeCountUtil(60000, 1000, new TimeCountUtil.CountListener() {
+            @Override
+            public void onTick(long l) {
+                mGetCodeBtn.setClickable(false);
+                mGetCodeBtn.setText(l /1000+"秒后重发");
+            }
+
+            @Override
+            public void onFinish() {
+                mGetCodeBtn.setText("发送");
+                mGetCodeBtn.setClickable(true);
+            }
+        });
+        timer.start();
+    }
+
+
 }

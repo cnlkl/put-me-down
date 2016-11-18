@@ -266,7 +266,8 @@ public class TickTockView extends View{
 
             @Override
             public void onFinish() {
-                updateText(0);
+                mTimeRemaining = 0;
+                updateText(mTimeRemaining);
                 invalidate();
                 mOnFinishListener.onStop();
             }

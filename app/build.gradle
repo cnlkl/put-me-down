@@ -21,6 +21,12 @@ android {
     }
 }
 
+repositories{
+    flatDir{
+        dirs 'libs'
+    }
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -32,6 +38,10 @@ dependencies {
     compile 'pub.devrel:easypermissions:0.2.1'
     compile 'com.github.markushi:circlebutton:1.1'
     compile files('libs/libammsdk.jar')
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile files('libs/MobTools-2016.1012.1447.jar')
+    compile files('libs/MobCommons-2016.1012.1447.jar')
+    compile name: 'SMSSDK-2.1.2', ext: 'aar'
 }
 
 

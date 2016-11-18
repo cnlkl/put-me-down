@@ -10,11 +10,13 @@ package com.fzuclover.putmedown.features.login;
 public interface LoginContract {
 
     interface View {
-
+        void toTotalTimingTodayActivity();
+        void toForgotPasswordActivity();
+        void toRegisterActivity();
     }
 
     interface Presenter {
-
+        void login(String username, String password);
     }
 
 
