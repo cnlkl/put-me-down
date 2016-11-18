@@ -16,9 +16,9 @@
 
     <ImageView
         android:id="@+id/image1"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@mipmap/pmd"
+        android:layout_width="135dp"
+        android:layout_height="135dp"
+        android:src="@mipmap/white_logo"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
         />

@@ -65,6 +65,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View,Vi
     public void toTotalTimingTodayActivity() {
         Intent intent = new Intent(LoginActivity.this,TotalTimingTodayActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override

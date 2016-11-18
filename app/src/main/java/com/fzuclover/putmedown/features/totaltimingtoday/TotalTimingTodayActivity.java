@@ -47,7 +47,6 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
     private int mTimedToday;
     //目标时间(分钟)
     private int mTargetTime;
-    private CircleButton  mLoginBtn;
 
 
     @Override
@@ -84,8 +83,6 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
         mAchievementLayout.setOnClickListener(this);
         mHistoryLayout = (LinearLayout) findViewById(R.id.history_layout);
         mHistoryLayout.setOnClickListener(this);
-        mLoginBtn=(CircleButton)findViewById(R.id.login_btn);
-        mLoginBtn.setOnClickListener(this);
 
         mCurrentPlaceImg = (ImageView) findViewById(R.id.current_place_img);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -129,9 +126,6 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
             case R.id.history_layout:
                 toHistoryActivity();
                 break;
-            case R.id.login_btn:
-                toLoginActivity();
-
             default:
                 break;
         }
