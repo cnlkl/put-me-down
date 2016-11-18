@@ -14,7 +14,7 @@ import java.util.List;
 public interface AchievementContract {
 
     interface View {
-
+      void toShow();
     }
 
     interface Presenter {

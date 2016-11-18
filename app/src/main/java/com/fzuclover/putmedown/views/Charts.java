@@ -122,8 +122,10 @@ public class Charts extends View {
        pointPaint.setStrokeWidth(20);
        pointPaint.setAntiAlias(true);
        //折线图标
-       canvas.drawPoint(520+100,120,pointPaint);
-       canvas.drawText("--"+line_1Name,600+100,130,textPaint);
+       canvas.drawPoint(520+100,100,pointPaint);
+       textPaint.setTextSize(40);
+       canvas.drawText("--"+line_1Name,600+100,110,textPaint);
+       textPaint.setTextSize(48);
        path.moveTo(oX+xScale,(int)(oY-data[0]*0.01*yScale));
        canvas.drawPoint(oX+xScale,(int)(oY-data[0]*0.01*yScale),pointPaint);
        canvas.drawText(data[0]+"",oX+(0+1)*xScale,(int)(oY-data[0]*0.01*yScale-10),textPaint2);
@@ -140,9 +142,10 @@ public class Charts extends View {
        targetPaint.setStrokeWidth(20);
        targetPaint.setAntiAlias(true);
        // 折线图标
-       canvas.drawPoint(520+100,40,targetPaint);
-       canvas.drawText("--"+line_2Name,600+100,50,textPaint);
-
+       canvas.drawPoint(520+100,20,targetPaint);
+       textPaint.setTextSize(40);
+       canvas.drawText("--"+line_2Name,600+100,30,textPaint);
+       textPaint.setTextSize(48);
        target.moveTo(oX+xScale,(int)(oY-targetData[0]*0.01*yScale));
        canvas.drawPoint(oX+xScale,(int)(oY-targetData[0]*0.01*yScale),targetPaint);
        canvas.drawText(targetData[0]+"",oX+(0+1)*xScale,(int)(oY-targetData[0]*0.01*yScale-10),textPaint2);

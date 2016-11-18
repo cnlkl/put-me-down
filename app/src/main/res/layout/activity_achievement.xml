@@ -8,6 +8,7 @@
     tools:context="com.fzuclover.putmedown.features.achievement.AchievementActivity"
     android:weightSum="1">
 
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -24,7 +25,7 @@
             android:layout_width="50dp"
             android:layout_height="20dp"
             android:layout_marginLeft="0dp"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@mipmap/achievement"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,7 +67,7 @@
                 android:layout_width="50dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="0dp"
-                android:src="@mipmap/ic_launcher"/>
+                android:src="@mipmap/achievement"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -107,7 +108,7 @@
                 android:layout_width="50dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="0dp"
-                android:src="@mipmap/ic_launcher"/>
+                android:src="@mipmap/achievement"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -136,5 +137,8 @@
     <com.fzuclover.putmedown.views.Charts
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/charts" />
+        android:id="@+id/activity_DayAchievement_charts" />
+
+
+
 </LinearLayout>
