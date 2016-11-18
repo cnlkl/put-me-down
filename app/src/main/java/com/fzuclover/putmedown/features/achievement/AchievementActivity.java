@@ -81,7 +81,7 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
             i++;
             j++;
         }
-
+        
         mDayAchivementChart=(Charts)findViewById(R.id.activity_DayAchievement_charts);
         mTotalTravel=(TextView)findViewById(R.id.activity_totaltravel);
         mTotalTime=(TextView)findViewById(R.id.activity_totaltime);
