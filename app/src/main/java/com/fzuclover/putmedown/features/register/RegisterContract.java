@@ -10,6 +10,8 @@ public interface RegisterContract {
         void toLoginActivity();
         String getPhone();
         String getPassword();
+        String getConfirmPassword();
+        void setGetCodeBtnTimeCount();
     }
 
     interface Presenter {

@@ -1,6 +1,8 @@
 package com.fzuclover.putmedown.features.register;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -24,10 +26,13 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
     private RegisterContract.View mView;
 
+    private Handler mHandler;
+
     private EventHandler mEventHandler;
 
     public RegisterPresenter(RegisterContract.View view) {
         this.mView = view;
+        mHandler = new Handler(Looper.getMainLooper());
 
         //手机短信验证
         SMSSDK.initSDK((Context)mView, "19219815dbf5a", "87fcdb78d2a73bb58b9791b2918d5f16");
@@ -54,6 +59,12 @@ public class RegisterPresenter implements RegisterContract.Presenter {
                     }
                 }else{
                     ((Throwable)data).printStackTrace();
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText((Context) mView,"验证码错误",Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         };
@@ -63,12 +74,17 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
     @Override
     public void getCode(String phone) {
+        mView.setGetCodeBtnTimeCount();
         SMSSDK.getVerificationCode("86", phone);
     }
 
     @Override
     public void submit(String phone, String code) {
-        SMSSDK.submitVerificationCode("86", phone, code);
+        if(mView.getPassword().equals(mView.getConfirmPassword())){
+            SMSSDK.submitVerificationCode("86", phone, code);
+        }else{
+            Toast.makeText((Context) mView,"两次密码输入不一致",Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

@@ -3,12 +3,11 @@
 package com.fzuclover.putmedown.features.register;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.fzuclover.putmedown.features.login.LoginActivity;
+import com.fzuclover.putmedown.utils.TimeCountUtil;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.fzuclover.putmedown.BaseActivity;
 import com.fzuclover.putmedown.R;
@@ -20,7 +19,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private MaterialEditText mSecretEditText;
     private MaterialEditText mCheckSecEditText;
     private MaterialEditText mCodeEdt;
-    private Button mSendCodeBtn;
+    private Button mGetCodeBtn;
     private Button mSubmitBtn;
     private String mPhonenum;
     private String mSecret;
@@ -47,10 +46,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         mCheckSecEditText.setOnFocusChangeListener(this);
         mCheckSecEditText.setTag(3);
 
-        mSendCodeBtn = (Button) findViewById(R.id.register_get_checknum);
-        mSendCodeBtn.setOnClickListener(this);
-        mSendCodeBtn = (Button) findViewById(R.id.register_submit);
-        mSendCodeBtn.setOnClickListener(this);
+        mGetCodeBtn = (Button) findViewById(R.id.register_get_checknum);
+        mGetCodeBtn.setOnClickListener(this);
+        mGetCodeBtn = (Button) findViewById(R.id.register_submit);
+        mGetCodeBtn.setOnClickListener(this);
 
 
     }
@@ -107,8 +106,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void toLoginActivity() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+      finish();
     }
 
     @Override
@@ -120,4 +118,29 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     public String getPassword() {
         return mSecretEditText.getText().toString();
     }
+
+    @Override
+    public String getConfirmPassword() {
+        return mCheckSecEditText.getText().toString();
+    }
+
+    @Override
+    public void setGetCodeBtnTimeCount() {
+        TimeCountUtil timer = new TimeCountUtil(60000, 1000, new TimeCountUtil.CountListener() {
+            @Override
+            public void onTick(long l) {
+                mGetCodeBtn.setClickable(false);
+                mGetCodeBtn.setText(l /1000+"秒后重发");
+            }
+
+            @Override
+            public void onFinish() {
+                mGetCodeBtn.setText("发送");
+                mGetCodeBtn.setClickable(true);
+            }
+        });
+        timer.start();
+    }
+
+
 }
