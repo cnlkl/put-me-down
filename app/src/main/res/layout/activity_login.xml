@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -16,11 +16,11 @@
 
     <ImageView
         android:id="@+id/image1"
-        android:layout_width="135dp"
-        android:layout_height="135dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:src="@mipmap/white_logo"
         android:layout_gravity="center"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="35dp"
         />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -36,9 +36,9 @@
             android:layout_weight="1"
             android:hint="请输入帐号"
             android:textSize="18dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
             app:met_floatingLabel="normal"
             app:met_floatingLabelText="帐号"
             app:met_singleLineEllipsis="true"
@@ -59,9 +59,9 @@
             android:layout_weight="1"
             android:hint="请输入密码"
             android:inputType="textPassword"
-            android:textSize="18dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:textSize="20dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
             app:met_floatingLabel="normal"
             app:met_floatingLabelText="密码"
             app:met_singleLineEllipsis="true"
@@ -72,13 +72,13 @@
 
     <at.markushi.ui.CircleButton
         android:id="@+id/login"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:layout_gravity="center"
         android:src="@drawable/right_button"
-        android:layout_marginTop="40dp"
-        app:cb_color="#99CC00"
-        app:cb_pressedRingWidth="40dp"
+        android:layout_marginTop="36dp"
+        app:cb_color="#666666"
+        app:cb_pressedRingWidth="36dp"
         />
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
@@ -91,14 +91,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="忘记密码"
-            android:textColor="#055db5"
+            android:textColor="#333333"
             android:layout_marginLeft="100dp"
             android:layout_marginBottom="5dp"
             />
         <View
             android:layout_width="1dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="165dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="150dp"
             android:background="@color/gray"
             />
 
