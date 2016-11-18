@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="48dp"
+    android:minHeight="46dp"
     android:orientation="horizontal"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:paddingLeft="14dp"
+    android:paddingRight="14dp">
 
     <TextView
         android:id="@+id/__ftl_row_left_text"
@@ -17,17 +17,17 @@
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="2"
-        android:maxWidth="90dp"
-        android:textSize="12sp"
+        android:maxWidth="80dp"
+        android:textSize="10sp"
         android:visibility="gone"
         tools:text="2016/1/8"
         tools:visibility="visible"/>
 
     <com.fzuclover.putmedown.views.pmdtimeline.internal.ConnectorView
         android:id="@+id/__ftl_row_connector"
-        android:layout_width="16dp"
+        android:layout_width="12dp"
         android:layout_height="match_parent"
-        android:layout_marginRight="8dp"/>
+        android:layout_marginRight="6dp"/>
 
     <LinearLayout
         android:layout_width="0dp"
