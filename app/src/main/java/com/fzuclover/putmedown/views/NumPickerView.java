@@ -16,6 +16,7 @@ public class NumPickerView extends NumberPicker{
         super(context);
     }
 
+
     public NumPickerView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -23,7 +24,6 @@ public class NumPickerView extends NumberPicker{
     public NumPickerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
-
     @Override
     public void addView(View child) {
         super.addView(child);
