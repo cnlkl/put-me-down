@@ -4,8 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PutMeDown.iml" filepath="$PROJECT_DIR$/PutMeDown.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/linjin.iml" filepath="$PROJECT_DIR$/linjin.iml" />
-      <module fileurl="file://$PROJECT_DIR$/put-me-down.iml" filepath="$PROJECT_DIR$/put-me-down.iml" />
     </modules>
   </component>
 </project>
