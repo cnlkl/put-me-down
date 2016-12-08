@@ -42,6 +42,8 @@ dependencies {
     compile files('libs/MobTools-2016.1012.1447.jar')
     compile files('libs/MobCommons-2016.1012.1447.jar')
     compile name: 'SMSSDK-2.1.2', ext: 'aar'
+    compile 'com.github.PhilJay:MPAndroidChart-Realm:v2.0.2@aar'
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.0'
 }
 
 
