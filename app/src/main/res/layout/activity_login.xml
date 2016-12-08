@@ -51,7 +51,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/password_edt"
             android:layout_width="0dp"
