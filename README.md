@@ -16,29 +16,29 @@
 文件编码：UTF-8
 > *包名包名全部小写，连续的单词只是简单地连接起来，不使用下划线
 
-|包名|备注|
-|:-|:-|
-| com.xx.应用名称缩写.activity | 页面用到的Activity类 |
-| com.xx.应用名称缩写.adapter | 页面用到的Adapter类
-| com.xx.应用名称缩写.util | 公共工具方法类 |
-| com.xx.应用名称缩写.model | 模型类 |
-| com.xx.应用名称缩写.view | 自定义的View类 |
-| com.xx.应用名称缩写.db | 数据库操作类 |
-| com.xx.应用名称缩写.service | Service服务 |
-| com.xx.应用名称缩写.receiver | BroadcastReceiver服务 |
+包名|备注
+-----|-----
+com.xx.应用名称缩写.activity | 页面用到的Activity类 
+com.xx.应用名称缩写.adapter | 页面用到的Adapter类
+com.xx.应用名称缩写.util | 公共工具方法类 
+com.xx.应用名称缩写.model | 模型类 
+com.xx.应用名称缩写.view | 自定义的View类 
+com.xx.应用名称缩写.db | 数据库操作类 
+com.xx.应用名称缩写.service | Service服务 
+com.xx.应用名称缩写.receiver | BroadcastReceiver服务
 
 > * 类名  
 类名都以UpperCamelCase风格编写   
  
-|类名|描述|例|
-|:-|:-|:-|
-| dapter类	|Adapter 为后缀标识	|新闻详情适配器 NewDetailAdapter|
-| 解析类	|Parser为后缀标识|首页解析类HomePosterParser|
-|工具方法类	|Util或Manager为后缀标识	|日志工具类：LogUtil|
-|数据库类	|以DBHelper后缀标识	|新闻数据库：NewDBHelper|
-|Service类	|以Service为后缀标识	|时间服务TimeService|
-|Receiver类	|以Receiver为后缀标识 |推送接收JPushReceiver|
-|自定义的共享基础类|	以Base开头	|BaseActivity,BaseFragment|
+类名|描述|例
+----|----|----
+dapter类	|Adapter 为后缀标识	|新闻详情适配器 NewDetailAdapter
+解析类	|Parser为后缀标识|首页解析类HomePosterParser
+工具方法类	|Util或Manager为后缀标识	|日志工具类：LogUtil
+数据库类	|以DBHelper后缀标识	|新闻数据库：NewDBHelper
+Service类	|以Service为后缀标识	|时间服务TimeService
+Receiver类	|以Receiver为后缀标识 |推送接收JPushReceiver
+自定义的共享基础类|	以Base开头	|BaseActivity,BaseFragment
 
 > * 方法名   
 方法名都以 LowerCamelCase 风格编写
