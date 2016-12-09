@@ -27,7 +27,8 @@
 | com.xx.应用名称缩写.service | Service服务 |
 | com.xx.应用名称缩写.receiver | BroadcastReceiver服务 |
 
-> * 类名   类名都以UpperCamelCase风格编写   
+> * 类名  
+类名都以UpperCamelCase风格编写   
  
 |类名|描述|例|
 |:-|:-|:-|
