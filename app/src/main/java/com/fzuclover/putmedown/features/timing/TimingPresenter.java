@@ -1,22 +1,17 @@
 package com.fzuclover.putmedown.features.timing;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.fzuclover.putmedown.R;
 import com.fzuclover.putmedown.model.AchievementModel;
 import com.fzuclover.putmedown.model.IAchievementModel;
 import com.fzuclover.putmedown.model.IRecordModel;
 import com.fzuclover.putmedown.model.RecordModel;
-import com.fzuclover.putmedown.utils.LogUtil;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.sdk.modelmsg.WXTextObject;
@@ -151,7 +146,7 @@ public class TimingPresenter implements TimingContract.Presenter {
             }
 
             if(sharedPreferences.getBoolean(username + "is_light", true)){
-                builder.setLights(Color.BLUE,1000,1000);
+                builder.setLights(Color.GREEN,1000,1000);
             }
             Notification notification = builder.getNotification();
             notificationManager.notify(1,notification);
