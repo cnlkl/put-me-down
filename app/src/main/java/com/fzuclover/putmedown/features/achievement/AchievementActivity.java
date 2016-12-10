@@ -10,6 +10,7 @@ import com.fzuclover.putmedown.model.bean.DayAchievement;
 import com.fzuclover.putmedown.model.bean.Timescore;
 import com.fzuclover.putmedown.views.Charts;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.realm.implementation.RealmBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
@@ -120,10 +121,10 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
 
         int i;
 
-        mDayAchivementChart.setData(achieveData);
-        mDayAchivementChart.setTargetData(targetData);
+      //        mDayAchivementChart.setData(achieveData);
+      //      mDayAchivementChart.setTargetData(targetData);
 
-        mTotalTime.setText(mtotalAchievement.getTotalTime() + "");
+       //  mTotalTime.setText(mtotalAchievement.getTotalTime() + "");
 
         BarChartSetData();
 
@@ -153,16 +154,15 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
         //为了显示数据，需将realm中的数据查询出来
         RealmResults< Timescore> results = realm.where( Timescore.class).findAll();
 
-      /*  AxisValueFormatter formatter = new AxisValueFormatter() {
+       AxisValueFormatter formatter = new AxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                return results.get((int) value).getPlayerName();
+                return results.get((int) value).getNum();
             }
 
             @Override
             public int getDecimalDigits() { return 0; }
-        };*/
-
+        };
         RealmBarDataSet< Timescore>  dataSet = new RealmBarDataSet< Timescore>(results, "scoreNr", "totalScore");
 
         ArrayList<IBarDataSet> dataSetList = new ArrayList<IBarDataSet>();
