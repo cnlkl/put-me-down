@@ -1,6 +1,7 @@
 package com.fzuclover.putmedown.features.achievement;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fzuclover.putmedown.BaseActivity;
@@ -10,7 +11,6 @@ import com.fzuclover.putmedown.model.bean.DayAchievement;
 import com.fzuclover.putmedown.model.bean.Timescore;
 import com.fzuclover.putmedown.views.Charts;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.realm.implementation.RealmBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
@@ -29,26 +29,22 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
         todo 在此处声明私有变量
         如：TextView mTotalTime;
      */
-
-    private TextView mTotalTimeTv;
-
-    private TextView mTotalSuccessTv;
-
-    private TextView mTotalFailedTv;
-
     //调用presenter的方法获取数据
     private AchievementContract.Presenter mPresenter;
     private Achievement mtotalAchievement;
     private List<DayAchievement> mdayAchievement;
-    private TextView mTotalTime;
-    private TextView mTotalTravel;
-    private TextView mAchievePlace;
+    private TextView mTotalTimeTv;
+    private TextView mTotalTravelTv;
+    private TextView mAchievePlaceTv;
+    private ImageView mAchievePlaceImageIv;
     private Charts mDayAchivementChart;
 
     private BarChart mChart;//新增图表
     //存放图表显示的数据
 
     private Realm realm ;//BarChart数据IO
+
+    private int mtotalTime;
 
     private int[] achieveData = {400, 400, 400, 400, 400, 400, 400, 400, 400, 400};
     private int[] targetData = {180, 180, 180, 180, 180, 180, 180, 180, 180, 180};
@@ -62,11 +58,6 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_achievement);
-
-
-
-
-
         init();
 
         //传送数据接口
@@ -82,13 +73,18 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
         mPresenter = new AchievementPresenter(this);
 
         mTotalTimeTv = (TextView) findViewById(R.id.activity_totaltime);
-        mTotalSuccessTv = (TextView) findViewById(R.id.activity_totaltravel);
-        mTotalFailedTv = (TextView) findViewById(R.id.activity_toplace);
+        mTotalTravelTv = (TextView) findViewById(R.id.activity_totaltravel);
+        mAchievePlaceTv= (TextView) findViewById(R.id.activity_toplace);
+        mAchievePlaceImageIv=(ImageView)findViewById(R.id.sceneImage);
+
 
         Achievement achievement = mPresenter.getAchievement();
-        mTotalTimeTv.setText(String.valueOf(achievement.getTotalTime()));
-        mTotalFailedTv.setText(String.valueOf(achievement.getTotalFailed()));
-        mTotalSuccessTv.setText(String.valueOf(achievement.getTotalSuccess()));
+
+        //mtotalTime=achievement.getTotalTime();
+        mtotalTime=240;
+        mTotalTimeTv.setText(String.valueOf( mtotalTime)+" 分钟");
+        mTotalTravelTv .setText(String.valueOf(parseTravel(mtotalTime))+" KM");
+        mAchievePlaceTv.setText(timeToachieveplace(mtotalTime));
 
         List<DayAchievement> dayAchievements = mPresenter.getDayAchievements();
 
@@ -126,7 +122,7 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
 
        //  mTotalTime.setText(mtotalAchievement.getTotalTime() + "");
 
-        BarChartSetData();
+      //  BarChartSetData();
 
     }
 
@@ -154,7 +150,7 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
         //为了显示数据，需将realm中的数据查询出来
         RealmResults< Timescore> results = realm.where( Timescore.class).findAll();
 
-       AxisValueFormatter formatter = new AxisValueFormatter() {
+    /*   AxisValueFormatter formatter = new AxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
                 return results.get((int) value).getNum();
@@ -162,7 +158,7 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
 
             @Override
             public int getDecimalDigits() { return 0; }
-        };
+        };*/
         RealmBarDataSet< Timescore>  dataSet = new RealmBarDataSet< Timescore>(results, "scoreNr", "totalScore");
 
         ArrayList<IBarDataSet> dataSetList = new ArrayList<IBarDataSet>();
@@ -176,6 +172,85 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
 
     }
 
+//将时间映射为路程
+    public int parseTravel(int time)
+    {
+        int timeTotravel;
+        timeTotravel=time/60*10;
+        return  timeTotravel;
 
+    }
+//将时间映射为路程并设置图片
+    public String timeToachieveplace(int time)
+    {
+        int timeTotravel2;
+        timeTotravel2=time/60*10;
+        if(timeTotravel2>=2725)
+        {
+            mAchievePlaceImageIv.setImageDrawable(getResources().getDrawable(R.mipmap.achangbaishan));
+            return "长白山";
+        }
+        else if(timeTotravel2>=2675)
+        {
+            mAchievePlaceImageIv.setImageDrawable(getResources().getDrawable(R.mipmap.aqinghaihu));
+            return "青海湖";
+        }
+
+        else if(timeTotravel2>=2202)
+        {
+            mAchievePlaceImageIv.setImageDrawable(getResources().getDrawable(R.mipmap.ajiuzhaigou));
+            return  "九寨沟";
+        }
+        else if(timeTotravel2>=2136)
+        {
+            mAchievePlaceImageIv.setImageDrawable(getResources().getDrawable(R.mipmap.ayungangshiku));
+            return  "云冈石窟";
+        }
+        else if(timeTotravel2>=1822)
+        {
+            mAchievePlaceImageIv.setImageDrawable(getResources().getDrawable(R.mipmap.ahuanghehukoupubu));
+            return "黄河壶口瀑布";
+        }
+        else if(timeTotravel2>=1704)
+        {
+            mAchievePlaceImageIv.setImageDrawable(getResources().getDrawable(R.mipmap.ahuanghehukoupubu));
+            return "黄果树瀑布";
+        }
+        else if(timeTotravel2>=756)
+        {
+            mAchievePlaceImageIv.setImageDrawable(getResources().getDrawable(R.mipmap.awuzhen));
+            return "乌镇";
+        }
+        else if(timeTotravel2>=682)
+        {
+            mAchievePlaceImageIv.setImageDrawable(getResources().getDrawable(R.mipmap.alushan));
+            return "庐山";
+        }
+        else if(timeTotravel2>=568)
+        {
+            mAchievePlaceImageIv.setImageDrawable(getResources().getDrawable(R.mipmap.ahuangshan));
+            return "黄山";
+        }
+        else  if(timeTotravel2>=272)
+        {
+            mAchievePlaceImageIv.setImageDrawable(getResources().getDrawable(R.mipmap.awuyishan));
+            return "武夷山";
+        }
+        else if(timeTotravel2>=26)
+        {
+            mAchievePlaceImageIv.setImageDrawable(getResources().getDrawable(R.mipmap.afuzhousenlingonngyuan));
+            return "福州森林公园";
+        }
+        else if(timeTotravel2>=13)
+        {
+            mAchievePlaceImageIv.setImageDrawable(getResources().getDrawable(R.mipmap.asanfangqixiang));
+            return "三坊七巷";
+        }
+        else
+        {
+            mAchievePlaceImageIv.setImageDrawable(getResources().getDrawable(R.mipmap.aqinghaihu));
+            return "福州大学";
+        }
+    }
 
 }
