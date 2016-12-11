@@ -14,7 +14,9 @@ import java.util.List;
 public interface AchievementContract {
 
     interface View {
-      void toShow();
+        void toShow();
+        int parseTravel(int time);
+        String timeToachieveplace(int time);
     }
 
     interface Presenter {
