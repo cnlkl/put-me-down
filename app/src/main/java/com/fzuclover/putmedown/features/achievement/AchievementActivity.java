@@ -236,6 +236,7 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
             mAchievePlaceImageIv.setImageDrawable(getResources().getDrawable(R.mipmap.awuyishan));
             return "武夷山";
         }
+
         else if(timeTotravel2>=26)
         {
             mAchievePlaceImageIv.setImageDrawable(getResources().getDrawable(R.mipmap.afuzhousenlingonngyuan));
