@@ -1,183 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_achievement"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#efefef"
-    android:orientation="vertical"
-    tools:context="com.fzuclover.putmedown.features.achievement.AchievementActivity"
-    android:weightSum="1">
-
-<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="16dp">
+    tools:context="com.fzuclover.putmedown.features.achievement.AchievementActivity">
 
     <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal"
-      android:paddingLeft="40dp"
-      android:background="#ffffff"
-      android:layout_gravity="center">
-
-         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-          android:layout_width="50dp"
-          android:layout_height="wrap_content"
-          android:orientation="vertical"
-          android:layout_gravity="center"
-          android:weightSum="1">
-
-          <ImageView
-              android:layout_width="50dp"
-              android:layout_height="20dp"
-              android:src="@mipmap/white_logo"
-              android:layout_weight="0.15" />
-
-
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:textColor="@color/black"
-              android:textSize="10dp"
-              android:text="累计时间"
-              android:layout_marginTop="10dp"
-              />
-      </LinearLayout>
-      <LinearLayout
-          android:layout_height="wrap_content"
-          android:layout_width="wrap_content"
-          android:layout_marginLeft="10dp">
-          <TextView
-              android:id="@+id/activity_totaltime"
-              android:layout_width="wrap_content"
-              android:layout_height="36dp"
-              android:textColor="@color/black"
-              android:textSize="25dp"
-              android:text="100分钟"
-              android:layout_marginTop="10dp"
-              />
-      </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="40dp"
-        android:background="#ffffff"
-        android:layout_gravity="center">
+        android:layout_height="match_parent">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pie_chart"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"/>
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="20dp"
-                android:src="@mipmap/white_logo"/>
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/total_time_bar_chart"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="10dp"
-                android:text="累计行程"
-                android:layout_marginTop="10dp"
-                />
-        </LinearLayout>
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/success_bar_chart"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"/>
 
-        <LinearLayout
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_marginLeft="10dp">
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/failed_bar_chart"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"/>
 
-            <TextView
-                android:id="@+id/activity_totaltravel"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:textColor="@color/black"
-                android:textSize="25dp"
-                android:text="100分钟"
-                android:layout_marginTop="10dp"
-                android:layout_weight="0.09" />
-
-        </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="40dp"
-        android:background="#ffffff"
-        android:layout_gravity="center">
-
-        <LinearLayout
-
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center">
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="20dp"
-
-                android:src="@mipmap/white_logo"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="10dp"
-                android:text="到达地方"
-                android:layout_marginTop="10dp"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_marginLeft="10dp">
-            <TextView
-                android:id="@+id/activity_toplace"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:textColor="@color/black"
-                android:textSize="25dp"
-                android:text="100分钟"
-                android:layout_marginTop="10dp"
-                />
-        </LinearLayout>
-
-    </LinearLayout>
-
-
-     <LinearLayout android:layout_height="250dp"
-        android:layout_width="match_parent" >
-       <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-
-           android:id="@+id/sceneImage"
-        android:src="@mipmap/achangbaishan"
-        android:layout_weight="0.15" />
-      </LinearLayout>
-
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <com.github.mikephil.charting.charts.BarChart
-        android:layout_width="match_parent"
-        android:layout_height="600dp"
-        android:id="@+id/activity_DayAchievement_charts" />
-
-</LinearLayout>
-</LinearLayout>
 </ScrollView>

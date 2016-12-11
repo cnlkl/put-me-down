@@ -2,6 +2,8 @@ package com.fzuclover.putmedown.features.achievement;
 
 import com.fzuclover.putmedown.model.bean.Achievement;
 import com.fzuclover.putmedown.model.bean.DayAchievement;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.PieDataSet;
 
 import java.util.List;
 
@@ -14,9 +16,7 @@ import java.util.List;
 public interface AchievementContract {
 
     interface View {
-        void toShow();
-        int parseTravel(int time);
-        String timeToachieveplace(int time);
+
     }
 
     interface Presenter {
@@ -25,6 +25,18 @@ public interface AchievementContract {
 
         //获取每日成就,用于图表绘制
         List<DayAchievement> getDayAchievements();
+
+        //获取7日每天总计时次数
+        BarDataSet getTotalTimeBarDataSet();
+
+        //获取7日每日总成功次数
+        BarDataSet getSuccessBarDataSet();
+
+        //获取7日每日总失败次数
+        BarDataSet getFailedBarDataSet();
+
+        //获取总成功次数和失败次数
+        PieDataSet getAchievementPieDataSet();
     }
 
 }

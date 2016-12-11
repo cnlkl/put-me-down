@@ -25,7 +25,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".features.achievement.AchievementActivity" />
+        <activity android:name=".features.achievement.AchievementActivity" >
+
+        </activity>
         <activity android:name=".features.forgotpassword.ForgotPasswordActivity" />
         <activity android:name=".features.register.RegisterActivity" />
         <activity android:name=".features.setting.SettingActivity" />
@@ -36,11 +38,7 @@
         <service
             android:name=".services.ShowPMDForegroundService"
             android:enabled="true"
-            android:exported="true"></service><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+            android:exported="true"/>
     </application>
 
 </manifest>
