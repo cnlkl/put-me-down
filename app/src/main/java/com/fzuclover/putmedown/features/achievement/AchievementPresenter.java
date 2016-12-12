@@ -11,7 +11,6 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,83 +36,56 @@ public class AchievementPresenter implements AchievementContract.Presenter {
     }
 
     @Override
+    public int getTotalTime() {
+        return getAchievement().getTotalTime();
+    }
+
+    @Override
     public List<DayAchievement> getDayAchievements() {
         return mAchievementModel.getDayAchievements();
     }
 
     @Override
-    public BarDataSet getTotalTimeBarDataSet() {
-        ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
-        List<DayAchievement> dayAchievements = getDayAchievements();
-
-        int i = 1;
-        for (DayAchievement dayAchievement : dayAchievements){
-            entries.add(new BarEntry(i, dayAchievement.getTotal_time()));
-            LogUtil.d("time",dayAchievement.getDate());
-            if(i == 7) {
-                break;
-            }
-
-            i++;
+    public List<Integer> getDaySuccessTimes() {
+        List<Integer> list = new ArrayList<Integer>();
+        List<DayAchievement> achievements = getDayAchievements();
+        for(int i = 6;i >= 0;i--){
+            list.add(achievements.get(i).getSucces_times());
         }
-
-        BarDataSet barDataSet = new BarDataSet(entries, "total_time");
-        barDataSet.setColors(ColorTemplate.getHoloBlue());
-        barDataSet.setDrawValues(true);
-
-        return barDataSet;
+        return list;
     }
 
     @Override
-    public BarDataSet getSuccessBarDataSet() {
-        ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
-        List<DayAchievement> dayAchievements = getDayAchievements();
-
-        int i = 1;
-        for (DayAchievement dayAchievement : dayAchievements){
-            entries.add(new BarEntry(i, dayAchievement.getSucces_times()));
-            if(i == 7){
-                break;
-            }
-            i++;
+    public List<Integer> getDayFailedTimes() {
+        List<Integer> list = new ArrayList<Integer>();
+        List<DayAchievement> achievements = getDayAchievements();
+        for(int i = 6;i >= 0;i--){
+            list.add(achievements.get(i).getFailed_times());
         }
-
-        BarDataSet barDataSet = new BarDataSet(entries, "success");
-        barDataSet.setColors(ColorTemplate.getHoloBlue());
-        barDataSet.setDrawValues(true);
-
-        return barDataSet;
+        return list;
     }
 
     @Override
-    public BarDataSet getFailedBarDataSet() {
-        ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
-        List<DayAchievement> dayAchievements = getDayAchievements();
-
-        int i = 1;
-        for (DayAchievement dayAchievement : dayAchievements){
-            entries.add(new BarEntry(i, dayAchievement.getFailed_times()));
-            if(i == 7){
-                break;
-            }
-            i++;
+    public List<Integer> getDayTotalTime() {
+        List<Integer> list = new ArrayList<Integer>();
+        List<DayAchievement> achievements = getDayAchievements();
+        for(int i = 6;i >= 0;i--){
+            list.add(achievements.get(i).getTotal_time());
         }
-
-        BarDataSet barDataSet = new BarDataSet(entries, "failed");
-        barDataSet.setColors(ColorTemplate.getHoloBlue());
-        barDataSet.setDrawValues(true);
-
-        return barDataSet;
+        return list;
     }
 
     @Override
     public PieDataSet getAchievementPieDataSet() {
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
         Achievement achievement = getAchievement();
-        int successTimes = achievement.getTotalSuccess();
-        int failedTimes = achievement.getTotalFailed();
-        entries.add(new PieEntry(successTimes, successTimes/(successTimes+failedTimes)));
-        entries.add(new PieEntry(failedTimes, failedTimes/(successTimes+failedTimes)));
+        float successTimes = achievement.getTotalSuccess();
+        float failedTimes = achievement.getTotalFailed();
+        float successPercent = successTimes/(successTimes+failedTimes);
+        float failedPercent = failedTimes/(successTimes+failedTimes);
+        LogUtil.d("percent",successPercent + "  " + failedPercent);
+        entries.add(new PieEntry(successPercent, "成功" + (int)successTimes + "次"));
+        entries.add(new PieEntry(failedPercent, "失败" + (int)failedTimes +"次"));
         PieDataSet pieDataSet = new PieDataSet(entries, "总计");
         pieDataSet.setSliceSpace(3f);
         pieDataSet.setSelectionShift(5f);

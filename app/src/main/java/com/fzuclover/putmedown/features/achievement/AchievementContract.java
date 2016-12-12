@@ -23,18 +23,18 @@ public interface AchievementContract {
         //获取历史总的成就信息
         Achievement getAchievement();
 
+        //获取总计时时间
+        int getTotalTime();
+
         //获取每日成就,用于图表绘制
         List<DayAchievement> getDayAchievements();
 
-        //获取7日每天总计时次数
-        BarDataSet getTotalTimeBarDataSet();
-
-        //获取7日每日总成功次数
-        BarDataSet getSuccessBarDataSet();
-
-        //获取7日每日总失败次数
-        BarDataSet getFailedBarDataSet();
-
+        //获取每日成功次数
+        List<Integer> getDaySuccessTimes();
+        //获取每日失败次数
+        List<Integer> getDayFailedTimes();
+        //获取每日总计时时间
+        List<Integer> getDayTotalTime();
         //获取总成功次数和失败次数
         PieDataSet getAchievementPieDataSet();
     }
