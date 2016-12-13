@@ -26,6 +26,7 @@ import com.fzuclover.putmedown.features.setting.SettingActivity;
 import com.fzuclover.putmedown.features.timing.TimingActivity;
 import com.fzuclover.putmedown.features.timingrecord.TimingRecordActivity;
 import com.fzuclover.putmedown.utils.LogUtil;
+import com.fzuclover.putmedown.utils.SharePreferenceUtil;
 import com.fzuclover.putmedown.views.NumPickerView;
 import com.fzuclover.putmedown.views.WaveProgressView;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -68,7 +69,7 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
     @Override
     protected void onStart() {
         super.onStart();
-        mTimedToday = mPresenter.getTimedToday(this);
+        mTimedToday = mPresenter.getTimedToday();
         mWaveProgressView.setCurrent(mTimedToday, mTimedToday + "min/" + mTargetTime + "min");
     }
 
@@ -111,8 +112,8 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
         mWaveProgressView = (WaveProgressView) findViewById(R.id.wave_progress_view);
         mWaveProgressView.setOnClickListener(this);
         //今日已计时时间
-        mTimedToday = mPresenter.getTimedToday(this);
-        mTargetTime = mPresenter.getTargetTime(this);
+        mTimedToday = mPresenter.getTimedToday();
+        mTargetTime = mPresenter.getTargetTime();
         //设置进度球最大进度为目标时间
         mWaveProgressView.setMaxProgress(mTargetTime);
         mWaveProgressView.setCurrent(mTimedToday, mTimedToday + "min/" + mTargetTime + "min");
@@ -206,7 +207,7 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
                         temp = Integer.valueOf(targetTimeStr);
                         if (temp <= 1440) {
                             mTargetTime = temp;
-                            mPresenter.saveTargetTime(TotalTimingTodayActivity.this, mTargetTime);
+                            mPresenter.saveTargetTime(mTargetTime);
                             mWaveProgressView.setMaxProgress(mTargetTime);
                             mWaveProgressView.setCurrent(mTimedToday, mTimedToday + "min/" + mTargetTime + "min");
                         } else {
@@ -254,7 +255,7 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
                 if(TextUtils.isEmpty(comment)){
                     toastShort("请输入备注");
                 }else{
-                    int id = mPresenter.saveTimingRecord(TotalTimingTodayActivity.this, minute, comment);
+                    int id = mPresenter.saveTimingRecord(minute, comment);
                     toTimingActivity(minute, id);
                 }
             }

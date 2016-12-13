@@ -20,10 +20,8 @@ public interface TimingContract {
     }
 
     interface Presenter {
-        //保存到今日已计时时间
-        void saveTimedToday(Context context, int time);
         //计时结束后保存记录到数据库
-        void updateTimingRecord();
+        void updateTimingRecord(int time);
         //微信分享接口
         void shareText();
         //通知

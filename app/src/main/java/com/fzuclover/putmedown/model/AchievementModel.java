@@ -2,14 +2,13 @@ package com.fzuclover.putmedown.model;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.preference.PreferenceManager;
 
 import com.fzuclover.putmedown.model.bean.Achievement;
 import com.fzuclover.putmedown.model.bean.DayAchievement;
 import com.fzuclover.putmedown.model.db.DBHelper;
+import com.fzuclover.putmedown.utils.SharePreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +24,7 @@ public class AchievementModel implements IAchievementModel{
 
     private AchievementModel(Context context){
         if(context != null){
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-            mDbHelper = new DBHelper(context, sharedPreferences.getString("username", "root") + ".db", null, 1);
+            mDbHelper = new DBHelper(context, SharePreferenceUtil.getInstance(context).getUserName() + ".db", null, 1);
         }
     }
     public static IAchievementModel getAchieveMentModelInstance(Context context) {

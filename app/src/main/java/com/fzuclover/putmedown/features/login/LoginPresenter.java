@@ -1,13 +1,12 @@
 package com.fzuclover.putmedown.features.login;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import com.fzuclover.putmedown.networks.OkHttpManager;
 import com.fzuclover.putmedown.networks.callback.HttpCallBack;
 import com.fzuclover.putmedown.networks.data.HttpUrl;
+import com.fzuclover.putmedown.utils.SharePreferenceUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,6 +39,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.getBoolean("success")) {
                         saveLoginStatu(username);
+                        SharePreferenceUtil.getInstance((Context)mView).close();
                         mView.toTotalTimingTodayActivity();
                     } else {
                         Toast.makeText((Context) mView, "账号或密码错误", Toast.LENGTH_SHORT).show();
@@ -59,16 +59,12 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void saveLoginStatu(String username) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences((Context)mView);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("username", username);
-        editor.putBoolean("is_login", true);
-        editor.commit();
+        SharePreferenceUtil.getInstance((Context)mView).saveUserName(username);
+        SharePreferenceUtil.getInstance((Context)mView).saveLoginStatu(true);
     }
 
     @Override
     public boolean getLoginStatu() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences((Context)mView);
-        return sharedPreferences.getBoolean("is_login",false);
+        return SharePreferenceUtil.getInstance((Context)mView).getLoginStatu();
     }
 }

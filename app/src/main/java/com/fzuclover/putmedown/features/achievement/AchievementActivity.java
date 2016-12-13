@@ -11,6 +11,7 @@ import android.view.View;
 import com.fzuclover.putmedown.BaseActivity;
 import com.fzuclover.putmedown.R;
 import com.fzuclover.putmedown.features.achievement.adapters.AchievementViewPagerAdapter;
+import com.fzuclover.putmedown.model.AchievementModel;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -64,6 +65,9 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
 
     private void init() {
         mPresenter = new AchievementPresenter(this);
+        if(mPresenter.getTotalTime() == 0){
+            toastShort("尚未生成记录，请先计时，次日即可查看");
+        }
 
         //初始化tablayout
         mTabLayout = (TabLayout) findViewById(R.id.achievement_tab);
@@ -127,6 +131,8 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(true);
+        xAxis.setDrawLabels(false);
+
 
         YAxis leftAxis = lineChart.getAxisLeft();
         leftAxis.setAxisMinimum(0f);
@@ -141,7 +147,7 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
         if(count == 1){
             List<Entry> yVal = new ArrayList<Entry>();
             List<Integer> totalTimeList = mPresenter.getDayTotalTime();
-            for (int i = 1; i < 8; i++) {
+            for (int i = 1; i < totalTimeList.size()+1; i++) {
                 yVal.add(new Entry(i, totalTimeList.get(i-1)));
             }
             LineDataSet lineDataSet = new LineDataSet(yVal, "每日累计计时");
@@ -165,10 +171,10 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
             List<Entry> failedYVal = new ArrayList<Entry>();
             List<Integer> successTimes = mPresenter.getDaySuccessTimes();
             List<Integer> failedTimes = mPresenter.getDayFailedTimes();
-            for (int i = 1; i < 8; i++) {
+            for (int i = 1; i < successTimes.size()+1; i++) {
                 successYVal.add(new Entry(i, successTimes.get(i-1)));
             }
-            for (int i = 1; i < 8; i++) {
+            for (int i = 1; i < failedTimes.size()+1; i++) {
                 failedYVal.add(new Entry(i, failedTimes.get(i-1)));
             }
 

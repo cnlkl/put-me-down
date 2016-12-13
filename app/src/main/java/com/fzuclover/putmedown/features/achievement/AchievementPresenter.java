@@ -49,7 +49,11 @@ public class AchievementPresenter implements AchievementContract.Presenter {
     public List<Integer> getDaySuccessTimes() {
         List<Integer> list = new ArrayList<Integer>();
         List<DayAchievement> achievements = getDayAchievements();
-        for(int i = 6;i >= 0;i--){
+        int i = 6;
+        if(achievements.size() < 7){
+            i = achievements.size() -1;
+        }
+        for(;i >= 0;i--){
             list.add(achievements.get(i).getSucces_times());
         }
         return list;
@@ -59,7 +63,11 @@ public class AchievementPresenter implements AchievementContract.Presenter {
     public List<Integer> getDayFailedTimes() {
         List<Integer> list = new ArrayList<Integer>();
         List<DayAchievement> achievements = getDayAchievements();
-        for(int i = 6;i >= 0;i--){
+        int i = 6;
+        if(achievements.size() < 7){
+            i = achievements.size() -1;
+        }
+        for(;i >= 0;i--){
             list.add(achievements.get(i).getFailed_times());
         }
         return list;
@@ -69,7 +77,11 @@ public class AchievementPresenter implements AchievementContract.Presenter {
     public List<Integer> getDayTotalTime() {
         List<Integer> list = new ArrayList<Integer>();
         List<DayAchievement> achievements = getDayAchievements();
-        for(int i = 6;i >= 0;i--){
+        int i = 6;
+        if(achievements.size() < 7){
+            i = achievements.size() -1;
+        }
+        for(;i >= 0;i--){
             list.add(achievements.get(i).getTotal_time());
         }
         return list;
