@@ -1,7 +1,6 @@
-<img src="http://images.cnblogs.com/cnblogs_com/liezhengli/923235/t_48.png" width="48px" height="48px"/><h2 style="display:inline;">put-me-down</h2>
---------
+<img src="http://images.cnblogs.com/cnblogs_com/liezhengli/923235/t_48.png" width="48px" height="48px"/>put-me-down
 ### 目录
---------
+
 * [简介](#1)
 * [相关信息](#2)
 * [代码规范](#3)
