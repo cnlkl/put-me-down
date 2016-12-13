@@ -1,4 +1,4 @@
-<a href="https://github.com/liezhengli/put-me-down"><img src="http://images.cnblogs.com/cnblogs_com/liezhengli/923235/t_48.png" width="48px" height="48px"/></a><div style="width=20px;height=50px;float:left;"><span style="font-size=12px;height-line:50px;">put-me-down</span></div>
+<a href="https://github.com/liezhengli/put-me-down"><img src="http://images.cnblogs.com/cnblogs_com/liezhengli/923235/t_48.png" width="48px" height="48px"/></a><span style="font-size=12px;height-line:12px;">put-me-down</span>
 ---------------------
 ### 目录
 
