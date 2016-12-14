@@ -5,13 +5,11 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.fzuclover.putmedown.BaseActivity;
 import com.fzuclover.putmedown.R;
 import com.fzuclover.putmedown.features.achievement.adapters.AchievementViewPagerAdapter;
-import com.fzuclover.putmedown.model.AchievementModel;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -25,11 +23,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.listener.ChartTouchListener;
-import com.github.mikephil.charting.listener.OnChartGestureListener;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,9 +58,6 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
 
     private void init() {
         mPresenter = new AchievementPresenter(this);
-        if(mPresenter.getTotalTime() == 0){
-            toastShort("尚未生成记录，请先计时，次日即可查看");
-        }
 
         //初始化tablayout
         mTabLayout = (TabLayout) findViewById(R.id.achievement_tab);

@@ -10,6 +10,8 @@ import com.fzuclover.putmedown.model.AchievementModel;
 import com.fzuclover.putmedown.model.IAchievementModel;
 import com.fzuclover.putmedown.model.IRecordModel;
 import com.fzuclover.putmedown.model.RecordModel;
+import com.fzuclover.putmedown.model.bean.Achievement;
+import com.fzuclover.putmedown.model.bean.DayAchievement;
 import com.fzuclover.putmedown.utils.SharePreferenceUtil;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
@@ -46,35 +48,31 @@ public class TimingPresenter implements TimingContract.Presenter {
 
     }
 
-    //TODO 0点计时可能数据错误
     @Override
     public void updateTimingRecord(int time) {
         mRecordModel.updateTimingRecord(mView.isSuccess(), mView.getRecordId(), mView.getFailComments());
         String date = mSharePreferenceUtil.getDate();
+
+        DayAchievement dayAchievement = mAchievementModel.getDayAchievement(date);
+        int totalTime = dayAchievement.getTotal_time();
+        int successTimes = dayAchievement.getSucces_times();
+        int failedTImes = dayAchievement.getFailed_times();
+
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String dateNow = format.format(new Date());
+
         if(date.equals(dateNow)) {
-            if(mView.isSuccess()){
-                mSharePreferenceUtil.saveTimedToday(mSharePreferenceUtil.getTimedToday()+time);
-                mSharePreferenceUtil.saveSuccessTimesToday(mSharePreferenceUtil.getSuccessTimesToday()+1);
+            if(mView.isSuccess()) {
+                mAchievementModel.updateAchievementEveryDay(date, totalTime+time, successTimes+1, failedTImes);
             } else {
-                mSharePreferenceUtil.saveFailedTimesToday(mSharePreferenceUtil.getFailedTimesToday() + 1);
+                mAchievementModel.updateAchievementEveryDay(date, totalTime, successTimes, failedTImes+1);
             }
-        }else {
-            //保存前一天的数据到数据库
-            int successTimesToday = mSharePreferenceUtil.getSuccessTimesToday();
-            int failedTImesToday = mSharePreferenceUtil.getFailedTimesToday();
-            int timedToday = mSharePreferenceUtil.getTimedToday();
-            mAchievementModel.saveAchievementEveryDay(date, timedToday, successTimesToday, failedTImesToday);
-            //存入新一天的数据
-            mSharePreferenceUtil.saveTimedToday(0);
+        } else {
             mSharePreferenceUtil.saveDate(dateNow);
             if(mView.isSuccess()){
-                mSharePreferenceUtil.saveSuccessTimesToday(1);
-                mSharePreferenceUtil.saveFailedTimesToday(0);
-            } else {
-                mSharePreferenceUtil.saveSuccessTimesToday(0);
-                mSharePreferenceUtil.saveFailedTimesToday(1);
+                mAchievementModel.saveAchievementEveryDay(dateNow, time, 1, 0);
+            }else{
+                mAchievementModel.saveAchievementEveryDay(dateNow, 0, 0, 1);
             }
         }
     }

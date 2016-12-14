@@ -8,6 +8,7 @@ import com.fzuclover.putmedown.model.IRecordModel;
 import com.fzuclover.putmedown.model.IUserModel;
 import com.fzuclover.putmedown.model.RecordModel;
 import com.fzuclover.putmedown.model.UserModel;
+import com.fzuclover.putmedown.model.bean.DayAchievement;
 import com.fzuclover.putmedown.utils.SharePreferenceUtil;
 
 import java.text.SimpleDateFormat;
@@ -46,23 +47,20 @@ public class TotalTimingTodayPresenter implements TotalTimingTodayContract.Prese
     @Override
     public int getTimedToday() {
         String date = mSharePreferenceUtil.getDate();
+        DayAchievement dayAchievement = mAchievementModel.getDayAchievement(date);
+        int totalTime = dayAchievement.getTotal_time();
+
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String dateNow = format.format(new Date());
-        if(date.equals(dateNow)){
-            return mSharePreferenceUtil.getTimedToday();
-        }else{
-            //保存前一天的数据到数据库
-            int successTimesToday = mSharePreferenceUtil.getSuccessTimesToday();
-            int failedTImesToday = mSharePreferenceUtil.getFailedTimesToday();
-            int timedToday = mSharePreferenceUtil.getTimedToday();
-            mAchievementModel.saveAchievementEveryDay(date, timedToday, successTimesToday, failedTImesToday);
-            //保存新一天的数据
+
+        if(date.equals(dateNow)) {
+            return totalTime;
+        }else {
             mSharePreferenceUtil.saveDate(dateNow);
-            mSharePreferenceUtil.saveTimedToday(0);
-            mSharePreferenceUtil.saveSuccessTimesToday(0);
-            mSharePreferenceUtil.saveFailedTimesToday(0);
+            mAchievementModel.saveAchievementEveryDay(dateNow, 0, 0, 0);
             return 0;
         }
+
     }
 
     @Override

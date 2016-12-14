@@ -15,4 +15,6 @@ public interface IRecordModel {
     void updateTimingRecord(Boolean isSuccess, int id, String failComment);
     //获取所有计时记录
     List<Record> getTimingRecord();
+
+    void close();
 }

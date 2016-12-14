@@ -54,31 +54,6 @@ public class SharePreferenceUtil {
         return mSharedPreferences.getString(mUsername + "date", "");
     }
 
-    public void saveTimedToday(int timedToday){
-        mEditor.putInt(mUsername + "timed_today", timedToday);
-        mEditor.commit();
-    }
-
-    public int getTimedToday(){
-        return mSharedPreferences.getInt(mUsername + "timed_today", 0);
-    }
-
-    public void saveSuccessTimesToday(int successTimes){
-        mEditor.putInt(mUsername + "success_times_today",successTimes);
-    }
-
-    public int getSuccessTimesToday(){
-        return mSharedPreferences.getInt(mUsername + "success_times_today", 0);
-    }
-
-    public void saveFailedTimesToday(int failedTimes){
-        mEditor.putInt(mUsername + "failed_times_today", failedTimes);
-    }
-
-    public int getFailedTimesToday(){
-        return mSharedPreferences.getInt(mUsername + "failed_times_today", 0);
-    }
-
     public void saveLoginStatu(boolean isLogin){
         mEditor.putBoolean("is_login", isLogin);
         mEditor.commit();

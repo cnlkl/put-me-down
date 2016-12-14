@@ -33,6 +33,9 @@ public class TimingRecordActivity extends BaseActivity implements TimingRecordCo
         config.setTopType(0);
         mTimeLine.setConfig(config);
         mTimeLine.setElements(mPresenter.getElements());
+        if(mPresenter.getElements().size() == 0) {
+            toastShort("尚未生成记录");
+        }
     }
 
 

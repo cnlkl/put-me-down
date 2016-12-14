@@ -119,6 +119,7 @@ public class RecordModel implements IRecordModel{
         return records;
     }
 
+    @Override
     public void close(){
         mRecordModel = null;
     }
