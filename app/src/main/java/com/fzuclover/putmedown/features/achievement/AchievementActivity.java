@@ -6,6 +6,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import com.fzuclover.putmedown.BaseActivity;
 import com.fzuclover.putmedown.R;
@@ -28,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class AchievementActivity extends BaseActivity implements AchievementContract.View {
+public class AchievementActivity extends BaseActivity implements AchievementContract.View, View.OnClickListener {
 
     private AchievementPresenter mPresenter;
 
@@ -50,6 +52,8 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
 
     private View mLineChartLayout;
 
+    private LinearLayout mShareLayout;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_achievement);
@@ -58,6 +62,9 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
 
     private void init() {
         mPresenter = new AchievementPresenter(this);
+
+        mShareLayout = (LinearLayout) findViewById(R.id.share_Layout);
+        mShareLayout.setOnClickListener(this);
 
         //初始化tablayout
         mTabLayout = (TabLayout) findViewById(R.id.achievement_tab);
@@ -96,7 +103,6 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
     private void initLineChart(LineChart lineChart,int count){
         // no description text
         lineChart.getDescription().setEnabled(false);
-
         // enable scaling and dragging
         lineChart.setScaleEnabled(false);
 
@@ -203,7 +209,7 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
         description.setText("成功/失败次数");
         description.setTextSize(10);
         mChart.setDescription(description);
-        mChart.setExtraOffsets(5, 10, 5, 5);
+        mChart.setExtraOffsets(5, 0, 5, 5);
 
         mChart.setDragDecelerationFrictionCoef(0.95f);
 
@@ -266,4 +272,12 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
         mChart.invalidate();
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.share_Layout:
+                mPresenter.share();
+                break;
+        }
+    }
 }

@@ -37,6 +37,9 @@ public interface AchievementContract {
         List<Integer> getDayTotalTime();
         //获取总成功次数和失败次数
         PieDataSet getAchievementPieDataSet();
+
+        //分享成就到朋友圈
+        void share();
     }
 
 }
