@@ -64,8 +64,8 @@ public class ForgotPasswordActivityTest extends ActivityInstrumentationTestCase2
                 mPhonumEditTest.performClick();
             }
         });
-        /*由于测试用例在单独的线程上执行，所以此处需要同步application，
-         * 调用waitForIdleSync等待测试线程和UI线程同步，才能进行输入操作。
+        /*由于测试用例在单独的线程上执行，所以此处需要同步application
+         * 调用waitForIdleSync等待测试线程和UI线程同步，才能进行输入操作
          * waitForIdleSync和sendKeys不允许在UI线程里运行
          */
         mInstrumentation.waitForIdleSync();
