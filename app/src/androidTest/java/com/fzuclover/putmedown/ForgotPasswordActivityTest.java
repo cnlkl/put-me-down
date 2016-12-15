@@ -119,3 +119,6 @@ public class ForgotPasswordActivityTest extends ActivityInstrumentationTestCase2
     }
 
 }
+
+
+
