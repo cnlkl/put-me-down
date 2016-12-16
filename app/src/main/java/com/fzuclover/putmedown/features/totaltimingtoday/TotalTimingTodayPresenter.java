@@ -1,8 +1,6 @@
 package com.fzuclover.putmedown.features.totaltimingtoday;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import com.fzuclover.putmedown.model.AchievementModel;
 import com.fzuclover.putmedown.model.IAchievementModel;
@@ -10,7 +8,8 @@ import com.fzuclover.putmedown.model.IRecordModel;
 import com.fzuclover.putmedown.model.IUserModel;
 import com.fzuclover.putmedown.model.RecordModel;
 import com.fzuclover.putmedown.model.UserModel;
-import com.fzuclover.putmedown.model.bean.Achievement;
+import com.fzuclover.putmedown.model.bean.DayAchievement;
+import com.fzuclover.putmedown.utils.SharePreferenceUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,73 +24,57 @@ public class TotalTimingTodayPresenter implements TotalTimingTodayContract.Prese
     private IRecordModel mRecordModel;
     private IUserModel mUserModel;
     private IAchievementModel mAchievementModel;
+    private SharePreferenceUtil mSharePreferenceUtil;
 
     public TotalTimingTodayPresenter(TotalTimingTodayContract.View view){
         mView = view;
         mRecordModel = RecordModel.getInstance((Context)view);
         mUserModel = UserModel.getInstance((Context)view);
         mAchievementModel = AchievementModel.getAchieveMentModelInstance((Context)view);
-
+        mSharePreferenceUtil = SharePreferenceUtil.getInstance((Context) view);
     }
 
     @Override
-    public void saveTargetTime(Context context, int targetTime) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor= sharedPreferences.edit();
-        String username = sharedPreferences.getString("username", "");
-        editor.putInt(username + "target_time",targetTime);
-        editor.commit();
+    public void saveTargetTime(int targetTime) {
+        mSharePreferenceUtil.saveTargetTime(targetTime);
     }
 
     @Override
-    public int getTargetTime(Context context) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String username = sharedPreferences.getString("username", "root");
-        return sharedPreferences.getInt(username + "target_time",180);
+    public int getTargetTime() {
+        return mSharePreferenceUtil.getTargetTime();
     }
 
     @Override
-    public int getTimedToday(Context context) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String username = sharedPreferences.getString("username","root");
-        String date = sharedPreferences.getString(username + "date", "");
+    public int getTimedToday() {
+        String date = mSharePreferenceUtil.getDate();
+        DayAchievement dayAchievement = mAchievementModel.getDayAchievement(date);
+        int totalTime = dayAchievement.getTotal_time();
+
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String dateNow = format.format(new Date());
-        if(date.equals(dateNow)){
-            return sharedPreferences.getInt(username + "timed_today", 0);
-        }else{
-            //保存前一天的数据到数据库
-            int successTimesToday = sharedPreferences.getInt(username + "success_times_today", 0);
-            int failedTImesToday = sharedPreferences.getInt(username + "failed_times_today", 0);
-            int timedToday = sharedPreferences.getInt(username + "timed_today", 0);
-            mAchievementModel.saveAchievementEveryDay(date, timedToday, successTimesToday, failedTImesToday);
-            //保存新一天的数据
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString(username + "date", dateNow);
-            editor.putInt(username + "timed_today", 0);
-            editor.putInt(username + "success_times_today",0);
-            editor.putInt(username + "failed_times_today", 0);
-            editor.commit();
+
+        if(date.equals(dateNow)) {
+            return totalTime;
+        }else {
+            mSharePreferenceUtil.saveDate(dateNow);
+            mAchievementModel.saveAchievementEveryDay(dateNow, 0, 0, 0);
             return 0;
         }
+
     }
 
     @Override
-    public int saveTimingRecord(Context context, int totalTime, String comments) {
-        int id = 0;
-        id = mRecordModel.saveTimingRecord(totalTime, comments);
-        return id;
+    public int saveTimingRecord(int totalTime, String comments) {
+        return mRecordModel.saveTimingRecord(totalTime, comments);
     }
 
     @Override
     public void setLoginStatu(boolean b) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences((Context)mView);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("is_login", b);
-        editor.putString("username", "");
-        editor.commit();
+        mSharePreferenceUtil.saveLoginStatu(b);
+        mSharePreferenceUtil.saveUserName("");
         RecordModel.getInstance((Context)mView).close();
         AchievementModel.getAchieveMentModelInstance((Context)mView).close();
+        mSharePreferenceUtil.close();
     }
 
 

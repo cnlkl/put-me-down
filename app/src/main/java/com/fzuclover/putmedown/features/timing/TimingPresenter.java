@@ -3,15 +3,16 @@ package com.fzuclover.putmedown.features.timing;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.preference.PreferenceManager;
 
 import com.fzuclover.putmedown.R;
 import com.fzuclover.putmedown.model.AchievementModel;
 import com.fzuclover.putmedown.model.IAchievementModel;
 import com.fzuclover.putmedown.model.IRecordModel;
 import com.fzuclover.putmedown.model.RecordModel;
+import com.fzuclover.putmedown.model.bean.Achievement;
+import com.fzuclover.putmedown.model.bean.DayAchievement;
+import com.fzuclover.putmedown.utils.SharePreferenceUtil;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.sdk.modelmsg.WXTextObject;
@@ -31,6 +32,7 @@ public class TimingPresenter implements TimingContract.Presenter {
     private TimingContract.View mView;
     private IRecordModel mRecordModel;
     private IAchievementModel mAchievementModel;
+    private SharePreferenceUtil mSharePreferenceUtil;
     private static final String APP_ID = "wx63e23a6376ee0569";
     private IWXAPI api;
 
@@ -38,6 +40,7 @@ public class TimingPresenter implements TimingContract.Presenter {
         mView = view;
         mRecordModel = RecordModel.getInstance((Context)view);
         mAchievementModel = AchievementModel.getAchieveMentModelInstance((Context)view);
+        mSharePreferenceUtil = SharePreferenceUtil.getInstance((Context)mView);
         //初始化
         api = WXAPIFactory.createWXAPI((Context)mView, APP_ID, true);
         //向微信终端注册
@@ -46,67 +49,40 @@ public class TimingPresenter implements TimingContract.Presenter {
     }
 
     @Override
-    public void saveTimedToday(Context context, int time) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        String username = sharedPreferences.getString("username","root");
-        String date = sharedPreferences.getString(username + "date", "");
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        String dateNow = format.format(new Date());
-        if(date.equals(dateNow)) {
-            editor.putInt(username + "timed_today", (sharedPreferences.getInt(username + "timed_today", 0) + time));
-            editor.putInt(username + "success_times_totay", (sharedPreferences.getInt(username + "success_times_today", 0) + 1));
-            editor.commit();
-        }else {
-            //保存前一天的数据到数据库
-            int successTimesToday = sharedPreferences.getInt(username + "success_times_today", 0);
-            int failedTImesToday = sharedPreferences.getInt(username + "failed_times_today", 0);
-            int timedToday = sharedPreferences.getInt(username + "timed_today", 0);
-            mAchievementModel.saveAchievementEveryDay(date, timedToday, successTimesToday, failedTImesToday);
-            //存入新一天的数据
-            editor.putInt(username + "timed_today", time);
-            editor.putString(username + "date", dateNow);
-            editor.putInt(username + "success_times_today",1);
-            editor.putInt(username + "failed_times_today", 0);
-            editor.commit();
-        }
-    }
-    //TODO 0点计时可能数据错误
-    @Override
-    public void updateTimingRecord() {
+    public void updateTimingRecord(int time) {
         mRecordModel.updateTimingRecord(mView.isSuccess(), mView.getRecordId(), mView.getFailComments());
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences((Context)mView);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        String username = sharedPreferences.getString("username","root");
-        String date = sharedPreferences.getString(username + "date", "");
+        String date = mSharePreferenceUtil.getDate();
+
+        DayAchievement dayAchievement = mAchievementModel.getDayAchievement(date);
+        int totalTime = dayAchievement.getTotal_time();
+        int successTimes = dayAchievement.getSucces_times();
+        int failedTImes = dayAchievement.getFailed_times();
+
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String dateNow = format.format(new Date());
+
         if(date.equals(dateNow)) {
-            editor.putInt(username + "failed_times_today", sharedPreferences.getInt(username + "failed_times_today", 0) + 1);
-            editor.commit();
-        }else {
-            //保存前一天的数据到数据库
-            int successTimesToday = sharedPreferences.getInt(username + "success_times_today", 0);
-            int failedTImesToday = sharedPreferences.getInt(username + "failed_times_today", 0);
-            int timedToday = sharedPreferences.getInt(username + "timed_today", 0);
-            mAchievementModel.saveAchievementEveryDay(date, timedToday, successTimesToday, failedTImesToday);
-            //存入新一天的数据
-            editor.putInt(username + "timed_today", 0);
-            editor.putString(username + "date", dateNow);
-            editor.putInt(username + "success_times_today",0);
-            editor.putInt(username + "failed_times_today", 1);
-            editor.commit();
+            if(mView.isSuccess()) {
+                mAchievementModel.updateAchievementEveryDay(date, totalTime+time, successTimes+1, failedTImes);
+            } else {
+                mAchievementModel.updateAchievementEveryDay(date, totalTime, successTimes, failedTImes+1);
+            }
+        } else {
+            mSharePreferenceUtil.saveDate(dateNow);
+            if(mView.isSuccess()){
+                mAchievementModel.saveAchievementEveryDay(dateNow, time, 1, 0);
+            }else{
+                mAchievementModel.saveAchievementEveryDay(dateNow, 0, 0, 1);
+            }
         }
     }
 
     @Override
     public void shareText() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences((Context)mView);
-        String username = sharedPreferences.getString("username", "root");
-        if(sharedPreferences.getBoolean(username + "is_send_wx_msg", true)){
+        if(mSharePreferenceUtil.getIsSendWeChatMsg()){
             // 初始化一个WXTextObject对象
             WXTextObject textObj = new WXTextObject();
-            textObj.text = sharedPreferences.getString(username + "wx_msg_content", "控记不住记几的手啊");
+            textObj.text = mSharePreferenceUtil.getWeChatMsg();
             // 用WXTextObject对象初始化一个WXMediaMessage对象
             WXMediaMessage msg = new WXMediaMessage();
             msg.mediaObject = textObj;
@@ -128,9 +104,7 @@ public class TimingPresenter implements TimingContract.Presenter {
 
     @Override
     public void sendNotify() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences((Context)mView);
-        String username = sharedPreferences.getString("username","root");
-        if(sharedPreferences.getBoolean(username + "is_notify", true)){
+        if(mSharePreferenceUtil.getIsNotify()){
             NotificationManager notificationManager= (NotificationManager) ((Context)mView).getSystemService(Context.NOTIFICATION_SERVICE);
 //            Intent intent = new Intent((Context)mView, TimingActivity.class);
 //            PendingIntent pi = PendingIntent.getActivity((Context)mView, 0, intent, 0);
@@ -141,11 +115,11 @@ public class TimingPresenter implements TimingContract.Presenter {
 //                    .setContentIntent(pi)
                     .setContentText("恭喜！计时成功！")
                     .setSmallIcon(R.mipmap.white_logo);
-            if(sharedPreferences.getBoolean(username + "is_shock", true)){
+            if(mSharePreferenceUtil.getIsShock()){
                 builder.setVibrate(new long[]{0,500,500});
             }
 
-            if(sharedPreferences.getBoolean(username + "is_light", true)){
+            if(mSharePreferenceUtil.getIsLight()){
                 builder.setLights(Color.GREEN,1000,1000);
             }
             Notification notification = builder.getNotification();

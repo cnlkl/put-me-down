@@ -2,15 +2,14 @@ package com.fzuclover.putmedown.model;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import com.fzuclover.putmedown.model.bean.Record;
 import com.fzuclover.putmedown.model.db.DBHelper;
 import com.fzuclover.putmedown.utils.LogUtil;
+import com.fzuclover.putmedown.utils.SharePreferenceUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,9 +28,7 @@ public class RecordModel implements IRecordModel{
 
     private RecordModel(Context context){
         if(context != null){
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-            LogUtil.d("db_name",sharedPreferences.getString("username", "root")+".db");
-            mDbHelper = new DBHelper(context, sharedPreferences.getString("username", "root") + ".db", null, 1);
+            mDbHelper = new DBHelper(context, SharePreferenceUtil.getInstance(context).getUserName() + ".db", null, 1);
         }
     }
 
@@ -50,6 +47,9 @@ public class RecordModel implements IRecordModel{
         String date = simpleDateFormat.format(new Date());
 
         ContentValues values = new ContentValues();
+        values.put("is_success", 0);
+        values.put("fail_comments", "");
+        values.put("end_time", "非正常结束");
         values.put("start_time", date);
         values.put("total_time", totalTime);
         if (!TextUtils.isEmpty(comments)){
@@ -119,6 +119,7 @@ public class RecordModel implements IRecordModel{
         return records;
     }
 
+    @Override
     public void close(){
         mRecordModel = null;
     }

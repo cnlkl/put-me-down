@@ -19,10 +19,10 @@ public class TotalTimingTodayContract {
     }
 
     interface Presenter {
-        void saveTargetTime(Context context, int targetTime);
-        int getTargetTime(Context context);
-        int getTimedToday(Context context);
-        int saveTimingRecord(Context context, int totalTime, String comments);
+        void saveTargetTime(int targetTime);
+        int getTargetTime();
+        int getTimedToday();
+        int saveTimingRecord(int totalTime, String comments);
         void setLoginStatu(boolean b);
     }
 

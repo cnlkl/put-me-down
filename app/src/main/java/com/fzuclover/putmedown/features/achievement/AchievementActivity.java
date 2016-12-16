@@ -2,34 +2,57 @@ package com.fzuclover.putmedown.features.achievement;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import com.fzuclover.putmedown.BaseActivity;
 import com.fzuclover.putmedown.R;
+import com.fzuclover.putmedown.features.achievement.adapters.AchievementViewPagerAdapter;
 import com.github.mikephil.charting.animation.Easing;
-import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
-public class AchievementActivity extends BaseActivity implements AchievementContract.View {
+public class AchievementActivity extends BaseActivity implements AchievementContract.View, View.OnClickListener {
 
     private AchievementPresenter mPresenter;
 
     private PieChart mPieChart;
-    private BarChart mTotalBarChart;
-    private BarChart mSuccessBarChart;
-    private BarChart mFailedBarChart;
+
+    private LineChart mDayTotalTimeLineChart;
+
+    private LineChart mSuccessAndFailedLineChart;
+
+    private TabLayout mTabLayout;
+
+    private ViewPager mViewPager;
+
+    private LayoutInflater mInflater;
+
+    private List<View> mViewList;
+
+    private View mPieChartLayout;
+
+    private View mLineChartLayout;
+
+    private LinearLayout mShareLayout;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,64 +63,158 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
     private void init() {
         mPresenter = new AchievementPresenter(this);
 
-        mPieChart = (PieChart) findViewById(R.id.pie_chart);
+        mShareLayout = (LinearLayout) findViewById(R.id.share_Layout);
+        mShareLayout.setOnClickListener(this);
+
+        //初始化tablayout
+        mTabLayout = (TabLayout) findViewById(R.id.achievement_tab);
+        mTabLayout.setTabMode(TabLayout.MODE_FIXED);
+        mTabLayout.addTab(mTabLayout.newTab().setText("总计"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("最近7日"));
+
+        mViewList = new ArrayList<View>();
+        mInflater = LayoutInflater.from(this);
+
+        //初始化piechart
+        mPieChartLayout = mInflater.inflate(R.layout.page_piechart, null);
+        mPieChart = (PieChart) mPieChartLayout.findViewById(R.id.pie_chart);
         initPieChart(mPieChart);
 
-        mTotalBarChart = (BarChart) findViewById(R.id.total_time_bar_chart);
-        mSuccessBarChart = (BarChart) findViewById(R.id.success_bar_chart);
-        mFailedBarChart = (BarChart) findViewById(R.id.failed_bar_chart);
-        initBarChart(mTotalBarChart, mPresenter.getTotalTimeBarDataSet());
-        initBarChart(mSuccessBarChart, mPresenter.getSuccessBarDataSet());
-        initBarChart(mFailedBarChart, mPresenter.getFailedBarDataSet());
+        //初始化linechart
+        mLineChartLayout = mInflater.inflate(R.layout.page_linechart, null);
+        mDayTotalTimeLineChart = (LineChart) mLineChartLayout.findViewById(R.id.day_total_time);
+        mSuccessAndFailedLineChart = (LineChart) mLineChartLayout.findViewById(R.id.success_failed_times);
+        initLineChart(mDayTotalTimeLineChart,1);
+        initLineChart(mSuccessAndFailedLineChart,2);
 
+        mViewList.add(mPieChartLayout);
+        mViewList.add(mLineChartLayout);
+
+        //初始化viewpager
+        mViewPager = (ViewPager) findViewById(R.id.achievement_viewpager);
+        AchievementViewPagerAdapter viewPagerAdapter = new AchievementViewPagerAdapter(mViewList, new String[]{"总计", "最近7日"});
+        mViewPager.setAdapter(viewPagerAdapter);
+
+        //tabLayout与viewpager关联
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
-    private void initBarChart(BarChart barChart, BarDataSet barDataSet){
 
-        barChart.getDescription().setEnabled(false);
+    private void initLineChart(LineChart lineChart,int count){
+        // no description text
+        lineChart.getDescription().setEnabled(false);
+        // enable scaling and dragging
+        lineChart.setScaleEnabled(false);
 
-        barChart.setPinchZoom(false);
-        barChart.setScaleEnabled(false);
-        barChart.setDrawBarShadow(false);
-        barChart.setDrawGridBackground(false);
+        // add data
+        setLineChartData(lineChart, count);
 
-        XAxis xAxis = barChart.getXAxis();
+        lineChart.animateX(2500);
+
+        // get the legend (only possible after setting data)
+        Legend l = lineChart.getLegend();
+
+        // modify the legend ...
+        l.setForm(Legend.LegendForm.LINE);
+        l.setTextSize(13f);
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        l.setDrawInside(false);
+
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setTextSize(13f);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
-        xAxis.setTextSize(13);
-        xAxis.setLabelRotationAngle(20);
+        xAxis.setDrawAxisLine(true);
+        xAxis.setDrawLabels(false);
 
-        barChart.getAxisRight().setEnabled(false);
 
-        YAxis yAxis = barChart.getAxisLeft();
-        yAxis.setDrawGridLines(true);
-        yAxis.setDrawZeroLine(false);
-        yAxis.setTextSize(13);
+        YAxis leftAxis = lineChart.getAxisLeft();
+        leftAxis.setAxisMinimum(0f);
+        leftAxis.setDrawGridLines(true);
+        leftAxis.setTextSize(13f);
+        leftAxis.setDrawTopYLabelEntry(true);
+        leftAxis.setXOffset(10);
+        lineChart.getAxisRight().setEnabled(false);
+    }
 
-        // add a nice and smooth animation
-        barChart.animateY(2500);
-        barChart.getLegend().setEnabled(false);
-        barDataSet.setColors(ColorTemplate.getHoloBlue());
-        barDataSet.setDrawValues(false);
+    private void setLineChartData(LineChart lineChart, int count){
+        if(count == 1){
+            List<Entry> yVal = new ArrayList<Entry>();
+            List<Integer> totalTimeList = mPresenter.getDayTotalTime();
+            for (int i = 1; i < totalTimeList.size()+1; i++) {
+                yVal.add(new Entry(i, totalTimeList.get(i-1)));
+            }
+            LineDataSet lineDataSet = new LineDataSet(yVal, "每日累计计时");
 
-        ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
-        dataSets.add(barDataSet);
+            lineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+            lineDataSet.setColor(Color.parseColor("#5b9ef4"));
+            lineDataSet.setCircleColor(Color.parseColor("#5b9ef4"));
+            lineDataSet.setLineWidth(2f);
+            lineDataSet.setCircleRadius(6f);
+            lineDataSet.setHighLightColor(Color.parseColor("#5b9ef4"));
+            lineDataSet.setDrawCircleHole(true);
 
-        BarData data = new BarData(dataSets);
-        barChart.setData(data);
-        barChart.setFitBars(true);
+            LineData data = new LineData(lineDataSet);
+            data.setValueTextColor(Color.parseColor("#5b9ef4"));
+            data.setValueTextSize(12f);
 
-        barChart.invalidate();
+            // set data
+            lineChart.setData(data);
+        } else {
+            List<Entry> successYVal = new ArrayList<Entry>();
+            List<Entry> failedYVal = new ArrayList<Entry>();
+            List<Integer> successTimes = mPresenter.getDaySuccessTimes();
+            List<Integer> failedTimes = mPresenter.getDayFailedTimes();
+            for (int i = 1; i < successTimes.size()+1; i++) {
+                successYVal.add(new Entry(i, successTimes.get(i-1)));
+            }
+            for (int i = 1; i < failedTimes.size()+1; i++) {
+                failedYVal.add(new Entry(i, failedTimes.get(i-1)));
+            }
+
+            LineDataSet successLineDataSet = new LineDataSet(successYVal, "每日成功次数");
+            LineDataSet failedLineDataSet = new LineDataSet(failedYVal, "每日失败次数");
+
+            successLineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+            successLineDataSet.setColor(Color.parseColor("#5b9ef4"));
+            successLineDataSet.setCircleColor(Color.parseColor("#5b9ef4"));
+            successLineDataSet.setLineWidth(2f);
+            successLineDataSet.setCircleRadius(6f);
+            successLineDataSet.setHighLightColor(Color.parseColor("#5b9ef4"));
+            successLineDataSet.setDrawCircleHole(true);
+
+            failedLineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+            failedLineDataSet.setColor(Color.parseColor("red"));
+            failedLineDataSet.setCircleColor(Color.parseColor("red"));
+            failedLineDataSet.setLineWidth(2f);
+            failedLineDataSet.setCircleRadius(6f);
+            failedLineDataSet.setHighLightColor(Color.parseColor("red"));
+            failedLineDataSet.setDrawCircleHole(true);
+
+            LineData data = new LineData(successLineDataSet, failedLineDataSet);
+            data.setValueTextSize(12f);
+
+            // set data
+            lineChart.setData(data);
+
+        }
     }
 
     private void initPieChart(PieChart mChart){
         mChart.setUsePercentValues(true);
-        mChart.getDescription().setEnabled(false);
-        mChart.setExtraOffsets(5, 10, 5, 5);
+        mChart.getDescription().setEnabled(true);
+        Description description = new Description();
+        description.setText("成功/失败次数");
+        description.setTextSize(10);
+        mChart.setDescription(description);
+        mChart.setExtraOffsets(5, 0, 5, 5);
 
         mChart.setDragDecelerationFrictionCoef(0.95f);
 
-        mChart.setCenterText("成功/失败次数");
+        mChart.setCenterText("累计计时\n" + mPresenter.getTotalTime() + "分钟");
+        mChart.setCenterTextSize(16);
 
         mChart.setDrawHoleEnabled(true);
         mChart.setHoleColor(Color.WHITE);
@@ -110,12 +227,12 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
 
         mChart.setDrawCenterText(true);
 
-        mChart.setRotationAngle(0);
+        mChart.setRotationAngle(180);
         // enable rotation of the chart by touch
         mChart.setRotationEnabled(true);
         mChart.setHighlightPerTapEnabled(true);
 
-        setData(2, 100,mPresenter.getAchievementPieDataSet(), mPieChart);
+        setPieChartData(mPresenter.getAchievementPieDataSet(), mPieChart);
 
         mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
 
@@ -130,40 +247,22 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
 
         // entry label styling
         mChart.setEntryLabelColor(Color.WHITE);
-        mChart.setEntryLabelTextSize(12f);
+        mChart.setEntryLabelTextSize(13f);
 
     }
 
-    private void setData(int count, float range,PieDataSet dataSet, PieChart mChart) {
+    private void setPieChartData(PieDataSet dataSet, PieChart mChart) {
 
-        float mult = range;
         // add a lot of colors
-
         ArrayList<Integer> colors = new ArrayList<Integer>();
-
-        for (int c : ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.JOYFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.COLORFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.LIBERTY_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.PASTEL_COLORS)
-            colors.add(c);
-
-        colors.add(ColorTemplate.getHoloBlue());
-
+        colors.add(Color.parseColor("#5b9ef4"));
+        colors.add(Color.parseColor("red"));
         dataSet.setColors(colors);
-        //dataSet.setSelectionShift(0f);
 
+        //dataSet.setSelectionShift(0f);
         PieData data = new PieData(dataSet);
         data.setValueFormatter(new PercentFormatter());
-        data.setValueTextSize(11f);
+        data.setValueTextSize(15f);
         data.setValueTextColor(Color.WHITE);
         mChart.setData(data);
 
@@ -173,4 +272,12 @@ public class AchievementActivity extends BaseActivity implements AchievementCont
         mChart.invalidate();
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.share_Layout:
+                mPresenter.share();
+                break;
+        }
+    }
 }

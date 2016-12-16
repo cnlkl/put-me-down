@@ -11,7 +11,11 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
+import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.sdk.modelmsg.WXTextObject;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +26,18 @@ import java.util.List;
 
 public class AchievementPresenter implements AchievementContract.Presenter {
 
-    AchievementContract.View mView;
-
-    IAchievementModel mAchievementModel;
+    private AchievementContract.View mView;
+    private IAchievementModel mAchievementModel;
+    private static final String APP_ID = "wx63e23a6376ee0569";
+    private IWXAPI api;
 
     public AchievementPresenter(AchievementContract.View view) {
         this.mView = view;
         mAchievementModel = AchievementModel.getAchieveMentModelInstance((Context)mView);
+        //初始化
+        api = WXAPIFactory.createWXAPI((Context)mView, APP_ID, true);
+        //向微信终端注册
+        api.registerApp(APP_ID);
     }
 
     @Override
@@ -37,83 +46,68 @@ public class AchievementPresenter implements AchievementContract.Presenter {
     }
 
     @Override
+    public int getTotalTime() {
+        return getAchievement().getTotalTime();
+    }
+
+    @Override
     public List<DayAchievement> getDayAchievements() {
         return mAchievementModel.getDayAchievements();
     }
 
     @Override
-    public BarDataSet getTotalTimeBarDataSet() {
-        ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
-        List<DayAchievement> dayAchievements = getDayAchievements();
-
-        int i = 1;
-        for (DayAchievement dayAchievement : dayAchievements){
-            entries.add(new BarEntry(i, dayAchievement.getTotal_time()));
-            LogUtil.d("time",dayAchievement.getDate());
-            if(i == 7) {
-                break;
-            }
-
-            i++;
+    public List<Integer> getDaySuccessTimes() {
+        List<Integer> list = new ArrayList<Integer>();
+        List<DayAchievement> achievements = getDayAchievements();
+        int i = 6;
+        if(achievements.size() < 7){
+            i = achievements.size() -1;
         }
-
-        BarDataSet barDataSet = new BarDataSet(entries, "total_time");
-        barDataSet.setColors(ColorTemplate.getHoloBlue());
-        barDataSet.setDrawValues(true);
-
-        return barDataSet;
+        for(;i >= 0;i--){
+            list.add(achievements.get(i).getSucces_times());
+        }
+        return list;
     }
 
     @Override
-    public BarDataSet getSuccessBarDataSet() {
-        ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
-        List<DayAchievement> dayAchievements = getDayAchievements();
-
-        int i = 1;
-        for (DayAchievement dayAchievement : dayAchievements){
-            entries.add(new BarEntry(i, dayAchievement.getSucces_times()));
-            if(i == 7){
-                break;
-            }
-            i++;
+    public List<Integer> getDayFailedTimes() {
+        List<Integer> list = new ArrayList<Integer>();
+        List<DayAchievement> achievements = getDayAchievements();
+        int i = 6;
+        if(achievements.size() < 7){
+            i = achievements.size() -1;
         }
-
-        BarDataSet barDataSet = new BarDataSet(entries, "success");
-        barDataSet.setColors(ColorTemplate.getHoloBlue());
-        barDataSet.setDrawValues(true);
-
-        return barDataSet;
+        for(;i >= 0;i--){
+            list.add(achievements.get(i).getFailed_times());
+        }
+        return list;
     }
 
     @Override
-    public BarDataSet getFailedBarDataSet() {
-        ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
-        List<DayAchievement> dayAchievements = getDayAchievements();
-
-        int i = 1;
-        for (DayAchievement dayAchievement : dayAchievements){
-            entries.add(new BarEntry(i, dayAchievement.getFailed_times()));
-            if(i == 7){
-                break;
-            }
-            i++;
+    public List<Integer> getDayTotalTime() {
+        List<Integer> list = new ArrayList<Integer>();
+        List<DayAchievement> achievements = getDayAchievements();
+        int i = 6;
+        if(achievements.size() < 7){
+            i = achievements.size() -1;
         }
-
-        BarDataSet barDataSet = new BarDataSet(entries, "failed");
-        barDataSet.setColors(ColorTemplate.getHoloBlue());
-        barDataSet.setDrawValues(true);
-
-        return barDataSet;
+        for(;i >= 0;i--){
+            list.add(achievements.get(i).getTotal_time());
+        }
+        return list;
     }
 
     @Override
     public PieDataSet getAchievementPieDataSet() {
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
         Achievement achievement = getAchievement();
-        int successTimes = achievement.getTotalSuccess();
-        int failedTimes = achievement.getTotalFailed();
-        entries.add(new PieEntry(successTimes, successTimes/(successTimes+failedTimes)));
-        entries.add(new PieEntry(failedTimes, failedTimes/(successTimes+failedTimes)));
+        float successTimes = achievement.getTotalSuccess();
+        float failedTimes = achievement.getTotalFailed();
+        float successPercent = successTimes/(successTimes+failedTimes);
+        float failedPercent = failedTimes/(successTimes+failedTimes);
+        LogUtil.d("percent",successPercent + "  " + failedPercent);
+        entries.add(new PieEntry(successPercent, "成功" + (int)successTimes + "次"));
+        entries.add(new PieEntry(failedPercent, "失败" + (int)failedTimes +"次"));
         PieDataSet pieDataSet = new PieDataSet(entries, "总计");
         pieDataSet.setSliceSpace(3f);
         pieDataSet.setSelectionShift(5f);
@@ -121,5 +115,30 @@ public class AchievementPresenter implements AchievementContract.Presenter {
         return pieDataSet;
     }
 
+    @Override
+    public void share() {
+        // 初始化一个WXTextObject对象
+        WXTextObject textObj = new WXTextObject();
+        textObj.text = "我已经" + getTotalTime() + "分钟没有碰手机啦";
+        // 用WXTextObject对象初始化一个WXMediaMessage对象
+        WXMediaMessage msg = new WXMediaMessage();
+        msg.mediaObject = textObj;
+        msg.description = "PMD微信分享";
+        // 构造一个Req
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        // transaction字段用于唯一标识一个请求
+        req.transaction = buildTransaction("text");
+        req.message = msg;
+        // 分享或收藏的目标场景，通过修改scene场景值实现。
+        // 发送到聊天界面 —— WXSceneSession
+        // 发送到朋友圈 —— WXSceneTimeline
+        // 添加到微信收藏 —— WXSceneFavorite
+        req.scene = SendMessageToWX.Req.WXSceneTimeline;
+        // 调用api接口发送数据到微信
+        api.sendReq(req);
+    }
 
+    private String buildTransaction(final String type) {
+        return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
+    }
 }

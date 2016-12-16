@@ -95,8 +95,7 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
                 //计时成功时的动作
                 mIsSuccess = true;
                 mHandler.sendEmptyMessage(TIMING_SUCCESS);
-                mPresenter.updateTimingRecord();
-                mPresenter.saveTimedToday(TimingActivity.this, mTotalTime);
+                mPresenter.updateTimingRecord(mTotalTime);
             }
         });
 
@@ -172,7 +171,7 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
                     if(TextUtils.isEmpty(getFailComments())){
                        toastShort("请输入备注");
                     }else{
-                        mPresenter.updateTimingRecord();
+                        mPresenter.updateTimingRecord(0);
                         mTickTockView.stop();
                         mPresenter.shareText();
                         finish();
