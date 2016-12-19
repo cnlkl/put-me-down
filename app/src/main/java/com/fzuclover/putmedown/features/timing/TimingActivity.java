@@ -38,11 +38,12 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
     private boolean mIsSuccess;
     private static final int TIMING_SUCCESS = 0;
     private Handler mHandler;
+    private boolean mTagOfSharingText;
 
 
     @Override
-    protected void onPostResume() {
-        super.onPostResume();
+    protected void onResume() {
+        super.onResume();
         stopService(new Intent(this, ShowPMDForegroundService.class));
     }
 
@@ -61,6 +62,7 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
 
         mPresenter = new TimingPresenter(this);
         mIsSuccess = false;
+        mTagOfSharingText = false;
 
         mStopBtn = (Button) findViewById(R.id.stop_timing_btn);
         mStopBtn.setOnClickListener(this);
@@ -118,16 +120,19 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
     @Override
     protected void onStop() {
         super.onStop();
-        Intent intent = new Intent(this, ShowPMDForegroundService.class);
-        intent.putExtra("task_id", getTaskId());
-        intent.putExtra("is_success", mIsSuccess);
-        startService(intent);
+        if(!mIsSuccess && !mTagOfSharingText){
+            Intent intent = new Intent(this, ShowPMDForegroundService.class);
+            intent.putExtra("task_id", getTaskId());
+            intent.putExtra("is_success", mIsSuccess);
+            startService(intent);
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mTickTockView.stop();
+        stopService(new Intent(TimingActivity.this, ShowPMDForegroundService.class));
     }
 
     @Override
@@ -173,6 +178,7 @@ public class TimingActivity extends BaseActivity implements TimingContract.View 
                     }else{
                         mPresenter.updateTimingRecord(0);
                         mTickTockView.stop();
+                        mTagOfSharingText = true;
                         mPresenter.shareText();
                         finish();
                     }

@@ -24,8 +24,9 @@ public class ShowPMDForegroundService extends Service {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(7000);
                     ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+                    activityManager.moveTaskToFront(intent.getIntExtra("task_id",0), 0);
+                    Thread.sleep(7000);
                     activityManager.moveTaskToFront(intent.getIntExtra("task_id",0), 0);
                     LogUtil.d("show_service", "将计时界面移至前台");
                     Thread.sleep(10 * 60 * 1000);
