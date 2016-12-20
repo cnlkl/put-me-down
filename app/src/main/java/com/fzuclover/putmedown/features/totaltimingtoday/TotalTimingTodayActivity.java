@@ -205,13 +205,15 @@ public class TotalTimingTodayActivity extends BaseActivity implements TotalTimin
                     if (isNum.matches()) {
                         int temp;
                         temp = Integer.valueOf(targetTimeStr);
-                        if (temp <= 1440) {
+                        if (temp <= 1440 && temp > 0) {
                             mTargetTime = temp;
                             mPresenter.saveTargetTime(mTargetTime);
                             mWaveProgressView.setMaxProgress(mTargetTime);
                             mWaveProgressView.setCurrent(mTimedToday, mTimedToday + "min/" + mTargetTime + "min");
-                        } else {
+                        } else if(temp > 1440){
                             toastShort("目标时间超过24小时啦>.<");
+                        } else if(temp <= 0) {
+                            toastShort("目标太小啦>.<");
                         }
                     } else {
                         toastShort("请输入数字");
